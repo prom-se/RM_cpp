@@ -9,6 +9,9 @@ int main(){
     //串口接收线程
     std::thread read(&Serial::receive,std::ref(Serial_));
     read.detach();
+    //log线程
+    std::thread write(&Detector::log,std::ref(Detector_));
+    write.detach();
     //主循环
     do{
         //检测装甲板
@@ -16,7 +19,7 @@ int main(){
         //解算，跟踪目标
         Tracker_.track();
         //DeBug绘图并GUI显示
-        Detector_.debug(start_time, Detector_.dst, true);
+        Detector_.debug(start_time, Detector_.dst,false);
     }while(start_time != -1);
     return 0;
 }

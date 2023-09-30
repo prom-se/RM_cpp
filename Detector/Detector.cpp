@@ -317,6 +317,7 @@ void Detector::draw(){
         cv::line(show(cv::Rect(show.cols/2-640,show.rows/2-512,1280,1024)), point[3], point[2], cv::Scalar(255, 0, 255), 2);
 
     }
+    show.copyTo(drawed);
 }
 
 //Debug函数，控制台输出检测信息，显示GUI
@@ -351,7 +352,6 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
         delta_time = 0;
         frames = 0;
     }
-
     if (show_flag){
         cv::namedWindow("show",cv::WINDOW_NORMAL);
         cv::namedWindow("show_mat",cv::WINDOW_NORMAL);
@@ -361,5 +361,16 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
         else start_time = now_time;
     }
     else start_time = now_time;
+}
+
+void Detector::log(){
+    while(!drawed.empty()){
+        writer.write(drawed);
+    }
+}
+
+Detector::Detector() {
+    time_t now = time(nullptr);
+    writer.open(cv::format("../log/%s.avi",ctime(&now)),cv::VideoWriter::fourcc('D','I','V','X'), 100, cv::Size(1280, 1024));
 }
 

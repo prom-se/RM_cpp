@@ -37,8 +37,10 @@ class Detector {
     long now_time = 0;
     double delta_time = 0;
     double fps = 0;
+private:
+    cv::VideoWriter writer;
 public:
-    Detector() = default;
+    Detector();
     Rune rune;
     cv::Mat src = cv::Mat(1024, 1280, CV_8UC3);
     cv::Mat show = cv::Mat(1024, 1280, CV_8UC3);
@@ -62,9 +64,12 @@ public:
 
     //绘图
     void draw();
+    cv::Mat drawed = cv::Mat(1024, 1280, CV_8UC3);
 
     //显示图像
     void debug(long &start_time, cv::Mat &show_mat, bool show_flag);
+    //log
+    void log();
 
     //检测装甲板
     bool detect();
