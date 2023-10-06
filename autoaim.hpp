@@ -11,7 +11,7 @@
 #include "Serial/Serial.hpp"
 
 //是否使用海康相机
-//#define USE_HIK
+#define USE_HIK
 
 Detector Detector_;
 Tracker Tracker_(Detector_);
@@ -37,7 +37,8 @@ bool CamInit(){
     if(Hik.StartDevice(0) != 0) return false;//开启相机
     Hik.SetResolution(1280, 1024);//设置分辨率
     Hik.SetPixelFormat(17301514);//设置像素格式PixelType_Gvsp_BayerGR8
-    Hik.SetExposureTime(5000);//设置曝光时间
+    Hik.SetExposureTime(2000);//设置曝光时间
+    Hik.SetGAIN(10.0);
     Hik.SetFrameRate(120);//设置帧率上限
     Hik.SetStreamOn();//开始取流
     printf("[CamFPS] %.1fhz\n", Hik.GetFrameRate());//输出实际帧率

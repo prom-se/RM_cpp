@@ -5,6 +5,7 @@
 #include <opencv2/opencv.hpp>
 #include "vector"
 #include "../Detector/Detector.hpp"
+#include "EKF.hpp"
 #include <ceres/ceres.h>
 
 const std::vector<cv::Point3d> small_Armor = {cv::Point3f(-67.5, 27.5, 0),
@@ -60,6 +61,17 @@ struct buffTracker{
 
 };
 
+struct carTracker{
+    double t_yaw = 0;
+    double t_pitch = 0;
+    double dis = 0;
+    Eigen::Vector2d pos;
+    Eigen::Vector2d predict;
+    double pre_yaw,pre_pitch;
+    bool switched=false;
+    double last_yaw,last_pitch;
+};
+
 struct TrigResidual {
     TrigResidual(double x, double y, double z)
             : t_(x), dr_(y), dt_(z){}
@@ -83,10 +95,13 @@ class Tracker {
 public:
     double Gravity = 9.78;
     double air_k = 0.0282;
-    double speed = 30;
+    double speed = 15;
     double offset_time{};
-    Tracker(class Detector &Detector);
+    explicit Tracker(class Detector &Detector);
     buffTracker BuffTracker;
+    carTracker CarTracker;
+    cv::Point2f target;
+    EKF ekf_filter;
     //追踪
     bool track();
 
@@ -122,6 +137,9 @@ public:
     ceres::Solver::Summary summary;
 
     void car_init();
+    float selfYaw,selfPitch;
+    void car_reFind();
+
     void draw();
 
 };

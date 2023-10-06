@@ -7,8 +7,8 @@ Serial::Serial(Detector &Detector, Tracker &Tracker) {
 }
 
 bool Serial::open() {
-    sp_return ret = sp_get_port_by_name("/dev/ttyUSB0", &serPort);
-    if(ret != SP_OK)sp_get_port_by_name("/dev/ttyUSB1", &serPort);
+    sp_return ret = sp_get_port_by_name("/dev/ttyACM0", &serPort);
+    if(ret != SP_OK)sp_get_port_by_name("/dev/ttyUSB0", &serPort);
     ret = sp_open(serPort,SP_MODE_READ_WRITE);
     if(ret != SP_OK) return false;
     sp_set_baudrate(serPort,115200);
@@ -26,15 +26,14 @@ bool Serial::open() {
             sp_ret = open();
         }
         else {
-            msg = "A";
-            msg += "Y";
+            msg = "A";msg += "Y";
             if(serial_Detector->offset_pitch>0)msg += "+";
             else msg += "-";
-            msg += cv::format("%05.2f",abs(serial_Detector->yaw));
+            msg += cv::format("%06.2f",abs(serial_Detector->yaw));
             msg += "P";
             if(serial_Detector->yaw>0)msg += "+";
             else msg += "-";
-            msg += cv::format("%05.2f",abs(serial_Detector->offset_pitch));
+            msg += cv::format("%06.2f",abs(serial_Detector->offset_pitch));
             if(serial_Detector->yaw < 5 && serial_Detector->offset_pitch < 5) msg += "F";
             else msg += "N";
             msg += "E";
@@ -44,31 +43,26 @@ bool Serial::open() {
     }
 }
 
-[[noreturn]] bool Serial::receive() {//TODO:串口接收
-    while(true){//ABY360.00P-180.00E
-        sp_nonblocking_read(serPort,buffer,1);
-        if(buffer[0]=='A'){
-            sp_nonblocking_read(serPort,&(buffer[1]),17);
-            if(buffer[17]=='E'){
-                if(buffer[1]=='B'){
-                    serial_Detector->target_color = "blue";
-                }
-                else if(buffer[1]=='R'){
-                    serial_Detector->target_color = "red";
-                }
-                else{
-                    continue;
-                }
-                serial_Detector->readMsg = buffer;
-            }
-            else{
-                serial_Detector->readMsg = "NULL";
-                continue;
+[[noreturn]] bool Serial::receive() {
+    while(true){
+        char sign;
+        sp_nonblocking_read(serPort,&sign,1);
+        if(sign=='A'){
+            sp_nonblocking_read(serPort,&buffer,23);
+            if(buffer[23]=='E' && buffer[1]=='Y' && buffer[9]=='P' && buffer[17]=='S'){
+                serial_Detector->target_color = buffer[0]=='B' ? "blue":"red";
+                float selfYaw,selfPitch,shootSpeed;
+                std::string strbuffer = buffer;
+                selfYaw=std::stof(strbuffer.substr(2,7));
+                selfPitch=std::stof(strbuffer.substr(10,7));
+                shootSpeed=std::stof(strbuffer.substr(18,5));
+                serial_Tracker->selfYaw=selfYaw;serial_Tracker->selfPitch=selfPitch;
+                serial_Tracker->speed=shootSpeed;
+                serial_Detector->readMsg = 'A'+strbuffer;
             }
         }
         else{
             serial_Detector->readMsg = "NULL";
-            continue;
         }
     }
 }
