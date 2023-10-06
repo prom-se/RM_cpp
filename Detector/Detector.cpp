@@ -365,13 +365,9 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
 }
 
 void Detector::log(){
+    time_t now = time(nullptr);
+    writer.open(cv::format("../log/%s.avi",ctime(&now)),cv::VideoWriter::fourcc('D','I','V','X'), 100, cv::Size(1280, 1024));
     while(!drawed.empty()){
         writer.write(drawed);
     }
 }
-
-Detector::Detector() {
-    time_t now = time(nullptr);
-    writer.open(cv::format("../log/%s.avi",ctime(&now)),cv::VideoWriter::fourcc('D','I','V','X'), 100, cv::Size(1280, 1024));
-}
-

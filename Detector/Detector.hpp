@@ -40,7 +40,7 @@ class Detector {
 private:
     cv::VideoWriter writer;
 public:
-    Detector();
+    Detector()=default;
     Rune rune;
     cv::Mat src = cv::Mat(1024, 1280, CV_8UC3);
     cv::Mat show = cv::Mat(1024, 1280, CV_8UC3);
