@@ -77,8 +77,8 @@ void Tracker::trackTarget() {
 //        }
         ekf_filter.predict();
         ekf_filter.update(CarTracker.pos);
-        CarTracker.predict(0)=15*(ekf_filter.x(0)-track_Detector->Target_tvec.at<double>(0,0))+track_Detector->Target_tvec.at<double>(0,0);
-        CarTracker.predict(1)=15*(ekf_filter.x(1)-track_Detector->Target_tvec.at<double>(0,2))+track_Detector->Target_tvec.at<double>(0,2);
+        CarTracker.predict(0)=15*(ekf_filter.x(0)-CarTracker.pos(0))+track_Detector->Target_tvec.at<double>(0,0);
+        CarTracker.predict(1)=15*(ekf_filter.x(1)-CarTracker.pos(1))+track_Detector->Target_tvec.at<double>(0,2);
         car_reFind();
     }
 }

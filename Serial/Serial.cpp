@@ -37,7 +37,7 @@ bool Serial::open() {
             if(serial_Detector->yaw < 5 && serial_Detector->offset_pitch < 5) msg += "F";
             else msg += "N";
             msg += "E";
-            sp_nonblocking_write(serPort,msg.c_str(),msg.length());
+            sp_blocking_write(serPort,msg.c_str(),19,0);
             serial_Detector->serMsg = msg;
         }
     }
@@ -46,6 +46,7 @@ bool Serial::open() {
 [[noreturn]] bool Serial::receive() {
     while(true){
         char sign;
+//        sign='A';//DEBUG
         sp_nonblocking_read(serPort,&sign,1);
         if(sign=='A'){
             sp_nonblocking_read(serPort,&buffer,24);

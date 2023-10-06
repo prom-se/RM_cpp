@@ -13,7 +13,7 @@ public:
     bool sp_ret;
 
     std::string msg;
-    //char buffer[25]="BY 111.11P  22.22S33.33E";
+//    char buffer[25]="BY 111.11P  22.22S33.33E";
     char buffer[25];
     struct sp_port *serPort;
 
