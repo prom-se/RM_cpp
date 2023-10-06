@@ -48,7 +48,7 @@ bool Serial::open() {
         char sign;
         sp_nonblocking_read(serPort,&sign,1);
         if(sign=='A'){
-            sp_nonblocking_read(serPort,&buffer,23);
+            sp_nonblocking_read(serPort,&buffer,24);
             if(buffer[23]=='E' && buffer[1]=='Y' && buffer[9]=='P' && buffer[17]=='S'){
                 serial_Detector->target_color = buffer[0]=='B' ? "blue":"red";
                 float selfYaw,selfPitch,shootSpeed;

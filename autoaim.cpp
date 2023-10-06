@@ -10,8 +10,8 @@ int main(){
     std::thread read(&Serial::receive,std::ref(Serial_));
     read.detach();
     //log线程
-    std::thread write(&Detector::log,std::ref(Detector_));
-    write.detach();
+//    std::thread write(&Detector::log,std::ref(Detector_));
+//    write.detach();
     //主循环
     do{
         //检测装甲板
