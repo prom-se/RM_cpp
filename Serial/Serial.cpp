@@ -13,7 +13,7 @@ bool Serial::open() {
     if(ret != SP_OK) return false;
     sp_set_baudrate(serPort,115200);
     sp_set_bits(serPort, 8);
-    sp_set_bits(serPort,SP_PARITY_NONE);
+    sp_set_parity(serPort,SP_PARITY_NONE);
     sp_set_stopbits(serPort, 1);
     return true;
 }
@@ -26,19 +26,36 @@ bool Serial::open() {
             sp_ret = open();
         }
         else {
-            msg = "A";msg += "Y";
-            if(serial_Detector->offset_pitch>0)msg += "+";
-            else msg += "-";
-            msg += cv::format("%06.2f",abs(serial_Detector->yaw));
-            msg += "P";
-            if(serial_Detector->yaw>0)msg += "+";
-            else msg += "-";
-            msg += cv::format("%06.2f",abs(serial_Detector->offset_pitch));
-            if(serial_Detector->yaw < 5 && serial_Detector->offset_pitch < 5) msg += "F";
-            else msg += "N";
-            msg += "E";
-            sp_blocking_write(serPort,msg.c_str(),19,0);
-            serial_Detector->serMsg = msg;
+            if(serial_Detector->Armor.nums!=0){
+                msg = "A";msg += "Y";
+                if(serial_Detector->offset_pitch>0)msg += "+";
+                else msg += "-";
+                msg += cv::format("%06.2f",abs(serial_Detector->yaw));
+                msg += "P";
+                if(serial_Detector->yaw>0)msg += "+";
+                else msg += "-";
+                msg += cv::format("%06.2f",abs(serial_Detector->offset_pitch));
+                if(serial_Detector->yaw < 5 && serial_Detector->offset_pitch < 5) msg += "F";
+                else msg += "N";
+                msg += "E";
+                sp_blocking_write(serPort,msg.c_str(),19,0);
+                serial_Detector->serMsg = msg;
+            }
+            else{
+                msg = "A";msg += "Y";
+                if(serial_Detector->offset_pitch>0)msg += "+";
+                else msg += "-";
+                msg += cv::format("%06.2f",abs(0));
+                msg += "P";
+                if(serial_Detector->yaw>0)msg += "+";
+                else msg += "-";
+                msg += cv::format("%06.2f",abs(0));
+                if(serial_Detector->yaw < 5 && serial_Detector->offset_pitch < 5) msg += "F";
+                else msg += "N";
+                msg += "E";
+                sp_blocking_write(serPort,msg.c_str(),19,0);
+                serial_Detector->serMsg = msg;
+            }
         }
     }
 }
