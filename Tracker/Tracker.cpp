@@ -71,14 +71,10 @@ void Tracker::trackTarget() {
     }
     else{
         car_init();
-//        if(CarTracker.switched){
-//            ekf_filter.x(0)=CarTracker.pos(0);
-//            ekf_filter.x(1)=CarTracker.pos(1);
-//        }
         ekf_filter.predict();
         ekf_filter.update(CarTracker.pos);
-        CarTracker.predict(0)=5*(ekf_filter.x(0)-CarTracker.pos(0))+track_Detector->Target_tvec.at<double>(0,0);
-        CarTracker.predict(1)=5*(ekf_filter.x(1)-CarTracker.pos(1))+track_Detector->Target_tvec.at<double>(0,2);
+        CarTracker.predict(0)=-10*(ekf_filter.x(0)-CarTracker.pos(0))+CarTracker.pos(0);
+        CarTracker.predict(1)=-10*(ekf_filter.x(1)-CarTracker.pos(1))+CarTracker.pos(1);
         car_reFind();
     }
 }
@@ -174,38 +170,50 @@ void Tracker::Big_buff_track() {
 }
 
 void Tracker::car_init(){
+    if(!CarTracker.switched){
+        ekf_filter.init();
+        ekf_filter.x(0)=CarTracker.pos(0);
+        ekf_filter.x(1)=CarTracker.pos(1);
+    }
     CarTracker.t_yaw = selfYaw+track_Detector->yaw;
     CarTracker.t_pitch = selfPitch+track_Detector->pitch;
+    CarTracker.dis = track_Detector->Target_dis;
     double delta_yaw,delta_pitch;
     delta_yaw = abs(CarTracker.t_yaw-CarTracker.last_yaw);
     delta_pitch = abs(CarTracker.t_pitch-CarTracker.last_pitch);
+    CarTracker.pos(0)=CarTracker.dis*sin(CarTracker.t_yaw/180*CV_PI);
+    CarTracker.pos(1)=CarTracker.dis*cos(CarTracker.t_yaw/180*CV_PI);
     if(delta_yaw > 1 || delta_pitch > 1){
         CarTracker.switched=true;
+        ekf_filter.x(0)=CarTracker.pos(0);
+        ekf_filter.x(1)=CarTracker.pos(1);
     }
     else{
         CarTracker.switched=false;
     }
-    CarTracker.dis = track_Detector->Target_dis;
-    CarTracker.pos(0)=CarTracker.dis*sin(CarTracker.t_yaw/180*CV_PI);
-    CarTracker.pos(1)=CarTracker.dis*cos(CarTracker.t_yaw/180*CV_PI);
     CarTracker.last_yaw = CarTracker.t_yaw;
     CarTracker.last_pitch = CarTracker.t_pitch;
 }
 
 void Tracker::car_reFind() {
+    double dis = sqrt(pow(CarTracker.predict(0),2)+pow(CarTracker.predict(1),2));
     CarTracker.pre_yaw=atan2(CarTracker.predict(0),CarTracker.predict(1))*180/CV_PI;
-//    CarTracker.pre_yaw = track_Detector->yaw;
-    CarTracker.pre_pitch = track_Detector->offset_pitch;
+    CarTracker.pre_pitch = atan2(track_Detector->offset_y,dis)*180/CV_PI;
     double fx = cameraMatrix.at<double>(0, 0);
     double fy = cameraMatrix.at<double>(1, 1);
     double cx = cameraMatrix.at<double>(0, 2);
     double cy = cameraMatrix.at<double>(1, 2);
-    double X = CarTracker.dis * sin(CarTracker.pre_yaw/180*CV_PI);
-    double Y = CarTracker.dis * sin(CarTracker.pre_pitch/180*CV_PI);
+    double X = dis * sin(CarTracker.pre_yaw/180*CV_PI);
+    double Y = dis * sin(CarTracker.pre_pitch/180*CV_PI);
+    double org_X = CarTracker.dis * sin(track_Detector->yaw/180*CV_PI);
+    double org_Y = CarTracker.dis * sin(track_Detector->offset_pitch/180*CV_PI);
     // 使用相机内参将相对坐标转换为像素坐标
-    float pixelX = (fx * X / CarTracker.dis) + cx;
-    float pixelY = (fy * -Y / CarTracker.dis) + cy;
+    float pixelX = (fx * X / dis) + cx;
+    float pixelY = (fy * -Y / dis) + cy;
+    float pixel_orgX = (fx * org_X / CarTracker.dis) + cx;
+    float pixel_orgY = (fy * -org_Y / CarTracker.dis) + cy;
     target.x=pixelX;target.y=pixelY;
+    org.x=pixel_orgX;org.y=pixel_orgY;
 }
 
 void Tracker::draw(){
@@ -224,6 +232,7 @@ void Tracker::draw(){
     }
     if(CarTracker.dis != 0){
         cv::circle(track_Detector->show, target, 10,cv::Scalar(255, 0,255), 3);
+        cv::circle(track_Detector->show, org, 5,cv::Scalar(100, 0,255), 3);
         cv::putText(track_Detector->show,cv::format("pre_yaw:%2f pre_pitch:%2f",CarTracker.pre_yaw,CarTracker.pre_pitch),cv::Point2i(50, 500),cv::FONT_HERSHEY_SIMPLEX,
                     1,cv::Scalar(0,255,255),2);
         cv::putText(track_Detector->show,cv::format("pre_x:%2f pre_y:%2f",CarTracker.predict(0),CarTracker.predict(1)),cv::Point2i(50, 450),cv::FONT_HERSHEY_SIMPLEX,

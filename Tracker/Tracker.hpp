@@ -95,12 +95,12 @@ class Tracker {
 public:
     double Gravity = 9.78;
     double air_k = 0.0282;
-    double speed = 15;
+    double speed = 20;
     double offset_time{};
     explicit Tracker(class Detector &Detector);
     buffTracker BuffTracker;
     carTracker CarTracker;
-    cv::Point2f target;
+    cv::Point2f target,org;
     EKF ekf_filter;
     //追踪
     bool track();

@@ -45,10 +45,10 @@ bool Detector::number_classify(){
     cv::cvtColor(roi, roi_bin,cv::COLOR_BGR2GRAY);
     roi_bin(cv::Rect(130, 100, 540, 440)).copyTo(roi_bin);
     roi_bin / 255.0;
-//    cv::Mat mat_mean, _;
-//    cv::meanStdDev(roi_bin,mat_mean,_);
-//    cv::threshold(roi_bin, roi_bin,mat_mean.at<double>(0,0),255, 0);
-    cv::threshold(roi_bin, roi_bin,0,255,cv::THRESH_OTSU);
+    cv::Mat mat_mean, _;
+    cv::meanStdDev(roi_bin,mat_mean,_);
+    cv::threshold(roi_bin, roi_bin,mat_mean.at<double>(0,0),255, 0);
+//    cv::threshold(roi_bin, roi_bin,0,255,cv::THRESH_OTSU);
     cv::resize(roi_bin,roi_bin,cv::Size(20,28));
 
     cv::Mat blob;
