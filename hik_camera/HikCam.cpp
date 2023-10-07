@@ -1,5 +1,5 @@
 #include <cstdio>
-#include "./include/HikCam.hpp"
+#include "HikCam.hpp"
 HikCam::HikCam() = default;
 HikCam::~HikCam() {
     nRet = MV_CC_FreeImageBuffer(handle, (&pFrame));

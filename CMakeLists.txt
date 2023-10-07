@@ -11,18 +11,13 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${InferenceEngine_INCLUDE_DIRS})
 include_directories(${CERES_INCLUDE_DIRS})
 include_directories("/usr/include/eigen3/")
-
+include_directories("/opt/MVS/include/")
 link_directories(/usr/lib/x86_64-linux-gnu)
 
 add_executable(autoaim autoaim.cpp
                 autoaim.hpp
-                hik_camera/include/CameraParams.h
-                hik_camera/include/MvCameraControl.h
-                hik_camera/include/MvErrorDefine.h
-                hik_camera/include/MvISPErrorDefine.h
-                hik_camera/include/PixelType.h
-                hik_camera/HikCam.cpp
-                hik_camera/include/HikCam.hpp
+        hik_camera/HikCam.cpp
+        hik_camera/HikCam.hpp
                 Detector/Detector.cpp Detector/Detector.hpp
                 Tracker/Tracker.cpp Tracker/Tracker.hpp
                 Serial/Serial.cpp Serial/Serial.hpp Rune/Rune.cpp Rune/Rune.hpp

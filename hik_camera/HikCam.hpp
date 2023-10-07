@@ -5,8 +5,8 @@
 
 #include <cmath>
 #include <opencv2/opencv.hpp>
-#include "MvCameraControl.h"
-#include "chrono"
+#include <MvCameraControl.h>
+#include <chrono>
 
 typedef enum GAIN_MODE_{
     R_CHANNEL,

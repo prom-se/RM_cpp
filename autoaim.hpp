@@ -5,7 +5,7 @@
 #include <thread>
 #include <opencv2/opencv.hpp>
 #include <unistd.h>
-#include "hik_camera/include/HikCam.hpp"
+#include "hik_camera/HikCam.hpp"
 #include "Detector/Detector.hpp"
 #include "Tracker/Tracker.hpp"
 #include "Serial/Serial.hpp"
