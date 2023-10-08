@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_GENERATOR "Ninja" CACHE STRING "Default generator" FORCE)
 project(RM_cpp)
 
 # 寻找库并添加头文件路径
