@@ -7,7 +7,9 @@ program_path=/home/promise/RM_cpp/cmake-build-debug/
 
 
 times=0
+mkdir -p /home/promise/RM_cpp/cmake-build-debug
 cd $program_path || exit
+cmake .. -G Ninja
 ninja
 
 while true
