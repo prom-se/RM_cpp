@@ -73,8 +73,9 @@ void Tracker::trackTarget() {
         car_init();
         ekf_filter.predict();
         ekf_filter.update(CarTracker.pos);
-        CarTracker.predict(0)=-10*(ekf_filter.x(0)-CarTracker.pos(0))+CarTracker.pos(0);
-        CarTracker.predict(1)=-10*(ekf_filter.x(1)-CarTracker.pos(1))+CarTracker.pos(1);
+        pre_k = 3/2.*offset_time*track_Detector->fps;
+        CarTracker.predict(0)=-pre_k*(ekf_filter.x(0)-CarTracker.pos(0))+CarTracker.pos(0);
+        CarTracker.predict(1)=-pre_k*(ekf_filter.x(1)-CarTracker.pos(1))+CarTracker.pos(1);
         car_reFind();
     }
 }
@@ -144,7 +145,7 @@ void Tracker::Big_buff_track() {
             dt.emplace_back(delta_time);
             dr.emplace_back(delta_r);
 //            std::cout << t[t.size()-1] << " " << dr[t.size()-1] << std::endl;
-        }
+       }
     }
     else{
         start_time = (double)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count()/1000000.0;
@@ -208,12 +209,12 @@ void Tracker::car_reFind() {
     double org_X = CarTracker.dis * sin(track_Detector->yaw/180*CV_PI);
     double org_Y = CarTracker.dis * sin(track_Detector->offset_pitch/180*CV_PI);
     // 使用相机内参将相对坐标转换为像素坐标
-    float pixelX = (fx * X / dis) + cx;
-    float pixelY = (fy * -Y / dis) + cy;
-    float pixel_orgX = (fx * org_X / CarTracker.dis) + cx;
-    float pixel_orgY = (fy * -org_Y / CarTracker.dis) + cy;
-    target.x=pixelX;target.y=pixelY;
-    org.x=pixel_orgX;org.y=pixel_orgY;
+    double pixelX = (fx * X / dis) + cx;
+    double pixelY = (fy * -Y / dis) + cy;
+    double pixel_orgX = (fx * org_X / CarTracker.dis) + cx;
+    double pixel_orgY = (fy * -org_Y / CarTracker.dis) + cy;
+    target.x=(float)pixelX;target.y=(float)pixelY;
+    org.x=(float)pixel_orgX;org.y=(float)pixel_orgY;
 }
 
 void Tracker::draw(){

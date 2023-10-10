@@ -30,29 +30,19 @@ bool Serial::open() {
                 msg = "A";msg += "Y";
                 if(serial_Detector->offset_pitch>0)msg += "+";
                 else msg += "-";
-                msg += cv::format("%06.2f",abs(serial_Detector->yaw));
+                msg += cv::format("%06.2f",abs(serial_Tracker->CarTracker.pre_yaw));
                 msg += "P";
                 if(serial_Detector->yaw>0)msg += "+";
                 else msg += "-";
-                msg += cv::format("%06.2f",abs(serial_Detector->offset_pitch));
-                if(serial_Detector->yaw < 5 && serial_Detector->offset_pitch < 5) msg += "F";
+                msg += cv::format("%06.2f",abs(serial_Tracker->CarTracker.pre_pitch));
+                if(abs(serial_Tracker->CarTracker.pre_yaw) < 5 && abs(serial_Tracker->CarTracker.pre_pitch) < 5) msg += "F";
                 else msg += "N";
                 msg += "E";
                 sp_blocking_write(serPort,msg.c_str(),19,0);
                 serial_Detector->serMsg = msg;
             }
             else{
-                msg = "A";msg += "Y";
-                if(serial_Detector->offset_pitch>0)msg += "+";
-                else msg += "-";
-                msg += cv::format("%06.2f",abs(0));
-                msg += "P";
-                if(serial_Detector->yaw>0)msg += "+";
-                else msg += "-";
-                msg += cv::format("%06.2f",abs(0));
-                if(serial_Detector->yaw < 5 && serial_Detector->offset_pitch < 5) msg += "F";
-                else msg += "N";
-                msg += "E";
+                msg = "AY+000.00P+000.00NE";
                 sp_blocking_write(serPort,msg.c_str(),19,0);
                 serial_Detector->serMsg = msg;
             }

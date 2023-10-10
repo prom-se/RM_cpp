@@ -34,12 +34,12 @@ struct Armor{
 
 
 class Detector {
-    long now_time = 0;
-    double delta_time = 0;
-    double fps = 0;
 private:
     cv::VideoWriter writer;
 public:
+    long now_time = 0;
+    double delta_time = 0;
+    double fps = 0;
     Detector()=default;
     Rune rune;
     cv::Mat src = cv::Mat(1024, 1280, CV_8UC3);

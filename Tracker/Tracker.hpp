@@ -96,6 +96,7 @@ public:
     double Gravity = 9.78;
     double air_k = 0.0282;
     double speed = 20;
+    double pre_k=10;
     double offset_time{};
     explicit Tracker(class Detector &Detector);
     buffTracker BuffTracker;
@@ -137,7 +138,7 @@ public:
     ceres::Solver::Summary summary;
 
     void car_init();
-    float selfYaw,selfPitch;
+    float selfYaw{},selfPitch{};
     void car_reFind();
 
     void draw();
