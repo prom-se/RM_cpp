@@ -176,6 +176,9 @@ void Tracker::car_init(){
         ekf_filter.x(0)=CarTracker.pos(0);
         ekf_filter.x(1)=CarTracker.pos(1);
     }
+#ifndef USE_MSG
+    selfYaw=0;selfPitch=0;
+#endif
     CarTracker.t_yaw = selfYaw+track_Detector->yaw;
     CarTracker.t_pitch = selfPitch+track_Detector->pitch;
     CarTracker.dis = track_Detector->Target_dis;

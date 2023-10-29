@@ -6,6 +6,7 @@
 #include "../Detector/Detector.hpp"
 #include "../Tracker/Tracker.hpp"
 
+
 class Serial {
 public:
     Detector *serial_Detector;
@@ -16,6 +17,8 @@ public:
 //    char buffer[25]="BY 111.11P  22.22S33.33E";
     char buffer[25];
     struct sp_port *serPort;
+
+    double sp_yaw,sp_pitch;
 
     Serial(class Detector &Detector, class Tracker &Tracker);
 
