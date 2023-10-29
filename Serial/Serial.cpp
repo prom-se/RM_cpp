@@ -29,7 +29,7 @@ bool Serial::open() {
             if(serial_Detector->Armor.nums!=0){
                 msg = "A";msg += "Y";
                 if(serial_Tracker->CarTracker.pre_yaw>0)msg += "+";
-                else msg += "-";
+                else msg += "-"; 
                 msg += cv::format("%06.2f",abs(serial_Tracker->CarTracker.pre_yaw));
                 msg += "P";
                 if(serial_Tracker->CarTracker.pre_pitch>0)msg += "+";
