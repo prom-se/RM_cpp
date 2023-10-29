@@ -28,14 +28,14 @@ bool Serial::open() {
         else {
             if(serial_Detector->Armor.nums!=0){
                 msg = "A";msg += "Y";
-                if(serial_Detector->yaw>0)msg += "+";
+                if(serial_Tracker->CarTracker.pre_yaw>0)msg += "+";
                 else msg += "-";
-                msg += cv::format("%06.2f",abs(serial_Detector->yaw));
+                msg += cv::format("%06.2f",abs(serial_Tracker->CarTracker.pre_yaw));
                 msg += "P";
-                if(serial_Detector->offset_pitch>0)msg += "+";
+                if(serial_Tracker->CarTracker.pre_pitch>0)msg += "+";
                 else msg += "-";
-                msg += cv::format("%06.2f",abs(serial_Detector->offset_pitch));
-                if(abs(serial_Detector->yaw) < 5 && abs(serial_Detector->offset_pitch) < 5) msg += "F";
+                msg += cv::format("%06.2f",abs(serial_Tracker->CarTracker.pre_pitch));
+                if(abs(serial_Tracker->CarTracker.pre_yaw) < 5 && abs(serial_Tracker->CarTracker.pre_pitch) < 5) msg += "F";
                 else msg += "N";
                 msg += "E";
                 sp_blocking_write(serPort,msg.c_str(),19,0);
