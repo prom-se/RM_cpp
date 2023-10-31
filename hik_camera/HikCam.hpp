@@ -68,7 +68,7 @@ public:
     bool Set_Contrast(bool set_status,int dContrastParam);
 
     //采集图像（原图像转rgb）
-    [[noreturn]] void GetMat(cv::Mat &dst);
+    void GetMat(cv::Mat &dst);
 
     //读取相机时间戳
     int Get_TIMESTAMP() const;

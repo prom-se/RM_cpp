@@ -353,7 +353,7 @@ int HikCam::Get_TIMESTAMP() const
     return ((int)time_start.time_since_epoch().count() - timestamp_offset);
 }
 
-[[noreturn]] void HikCam::GetMat(cv::Mat &dst){
+void HikCam::GetMat(cv::Mat &dst){
         // ch:获取数据包大小 | en:Get payload size
         MVCC_INTVALUE stParam;
         memset(&stParam, 0, sizeof(MVCC_INTVALUE));
