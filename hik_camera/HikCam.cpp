@@ -354,7 +354,6 @@ int HikCam::Get_TIMESTAMP() const
 }
 
 [[noreturn]] void HikCam::GetMat(cv::Mat &dst){
-    while(true){
         // ch:获取数据包大小 | en:Get payload size
         MVCC_INTVALUE stParam;
         memset(&stParam, 0, sizeof(MVCC_INTVALUE));
@@ -388,5 +387,4 @@ int HikCam::Get_TIMESTAMP() const
             delete[] pData;
             pData = NULL;
         }
-    }
 }

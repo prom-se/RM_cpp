@@ -11,7 +11,7 @@
 #include "Serial/Serial.hpp"
 
 //是否使用海康相机
-//#define USE_HIK
+#define USE_HIK
 
 Detector Detector_;
 Tracker Tracker_(Detector_);
@@ -20,14 +20,16 @@ HikCam Hik;
 long start_time = 0;
 
 
-//USB相机/视频读取进程
-auto GetSrc = [Ptr = &Hik] { Ptr->GetMat(Detector_.src); };
+//图像读取进程
 cv::VideoCapture cap("../image/armor.avi");
 [[noreturn]] void CapThread(){
     while(true){
+#ifdef USE_HIK
+        Hik.GetMat(Detector_.src);
+#else
         cap.read(Detector_.src);
-//        Detector_.src = cv::imread("../image/1.png");
         cv::waitKey(15);
+#endif
     }
 };
 
@@ -42,17 +44,11 @@ bool CamInit(){
     Hik.SetFrameRate(120);//设置帧率上限
     Hik.SetStreamOn();//开始取流
     printf("[CamFPS] %.1fhz\n", Hik.GetFrameRate());//输出实际帧率
-
-    //海康读取图像线程
-    std::thread Cam(GetSrc);
-    Cam.detach();
-    return true;
-#else
+#endif
     //VideoCapture读取图像线程
     std::thread Cam(CapThread);
     Cam.detach();
     return true;
-#endif
 };
 
 #endif
