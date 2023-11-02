@@ -42,13 +42,19 @@ bool Detector::number_classify(){
     roi_points[3].x = 800;roi_points[3].y = 640;
     cv::Mat w_mat = cv::getPerspectiveTransform(armor_points,roi_points);
     cv::warpPerspective(src, roi, w_mat, cv::Size(800,640));
-    cv::cvtColor(roi, roi_bin,cv::COLOR_BGR2GRAY);
-    roi_bin(cv::Rect(130, 100, 540, 440)).copyTo(roi_bin);
-    roi_bin / 255.0;
-    cv::Mat mat_mean, _;
-    cv::meanStdDev(roi_bin,mat_mean,_);
-    cv::threshold(roi_bin, roi_bin,mat_mean.at<double>(0,0),255, 0);
-//    cv::threshold(roi_bin, roi_bin,0,255,cv::THRESH_OTSU);
+    cv::cvtColor(roi, roi,cv::COLOR_BGR2GRAY);
+    roi(cv::Rect(160, 100, 480, 440)).copyTo(roi);
+
+    roi.convertTo(roi,CV_32F,1.f/255.f);
+    double min,max;
+    cv::minMaxLoc(roi.reshape(1,1), &min, &max, nullptr, nullptr);
+    roi=roi-min;max=max-min;
+    roi=roi/max;
+    cv::pow(roi,0.5f,roi);
+    roi.convertTo(roi_bin,CV_8U,255.f);
+
+//    cv::threshold(roi_bin, roi_bin,150,255, 0);
+    cv::threshold(roi_bin, roi_bin,0,255,cv::THRESH_BINARY | cv::THRESH_OTSU);
     cv::resize(roi_bin,roi_bin,cv::Size(20,28));
 
     cv::Mat blob;
@@ -60,6 +66,7 @@ bool Detector::number_classify(){
     double confidence;
     cv::minMaxLoc(outputs.reshape(1,1), nullptr, &confidence, nullptr, &class_id_point);
     int label_id = class_id_point.x;
+//    label_id=0;//DEBUG
     Armor.number.emplace_back(num_classes[label_id]);
 
     return true;
