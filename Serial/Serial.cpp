@@ -1,6 +1,8 @@
 #include "Serial.hpp"
 
 Serial::Serial(Detector &Detector, Tracker &Tracker) {
+    yawFilter.Size=100;
+    pitchFilter.Size=100;
     serial_Detector = &Detector;
     serial_Tracker = &Tracker;
     sp_ret = open();
@@ -27,15 +29,21 @@ bool Serial::open() {
         }
         else {
             if(serial_Detector->Armor.nums!=0){
+                yawFilter.update(serial_Tracker->CarTracker.pre_yaw);
+                pitchFilter.update(serial_Tracker->CarTracker.pre_pitch);
+                double yaw,pitch;
+                yawFilter.get_avg(yaw);
+                pitchFilter.get_avg(pitch);
+                if(abs(yaw)<1)yaw=0;if(abs(pitch)<1)pitch=0;
                 msg = "A";msg += "Y";
-                if(serial_Tracker->CarTracker.pre_yaw>0)msg += "+";
+                if(yaw>0)msg += "+";
                 else msg += "-";
-                msg += cv::format("%06.2f",abs(serial_Tracker->CarTracker.pre_yaw));
+                msg += cv::format("%06.2f",abs(yaw));
                 msg += "P";
-                if(serial_Tracker->CarTracker.pre_pitch>0)msg += "+";
+                if(pitch>0)msg += "+";
                 else msg += "-";
-                msg += cv::format("%06.2f",abs(serial_Tracker->CarTracker.pre_pitch));
-                if(abs(serial_Tracker->CarTracker.pre_yaw) < 5 && abs(serial_Tracker->CarTracker.pre_pitch) < 5) msg += "F";
+                msg += cv::format("%06.2f",abs(pitch));
+                if(abs(yaw) < 5 && abs(pitch) < 5) msg += "F";
                 else msg += "N";
                 msg += "E";
                 sp_blocking_write(serPort,msg.c_str(),19,0);

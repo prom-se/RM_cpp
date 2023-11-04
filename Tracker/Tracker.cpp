@@ -22,7 +22,8 @@ bool Tracker::pnpSolve(){
 //                     cameraMatrix, distCoeffs, rvec, tvec, false,cv::SOLVEPNP_IPPE_SQUARE);
         track_Detector->Target_dis = sqrt(633.8*633.8+pow(140*cos(BuffTracker.targetTheta/180*CV_PI),2));
     }
-
+    disFilter.update(track_Detector->Target_dis);
+    disFilter.get_avg(track_Detector->Target_dis);
     return true;
 }
 
@@ -255,6 +256,7 @@ void Tracker::draw(){
 
 Tracker::Tracker(class Detector &Detector){
     Tracker::track_Detector = &Detector;
+    disFilter.Size=30;
     cv::Mat(3, 3, CV_64FC1, const_cast<double *>(cameraMatrix_1.data())).copyTo(cameraMatrix);
     cv::Mat(1, 5, CV_64FC1, const_cast<double *>(distCoeffs_1.data())).copyTo(distCoeffs);
 

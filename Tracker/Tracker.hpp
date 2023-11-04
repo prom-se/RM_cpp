@@ -6,6 +6,7 @@
 #include "vector"
 #include "../Detector/Detector.hpp"
 #include "EKF.hpp"
+#include "avgFilter.hpp"
 #include <ceres/ceres.h>
 
 //#define USE_MSG //使用串口信息
@@ -91,9 +92,11 @@ private:
 
 
 class Tracker {
+private:
     cv::Mat cameraMatrix;
     cv::Mat distCoeffs;
     Detector *track_Detector;
+    class avgFilter disFilter;
 public:
     double Gravity = 9.78;
     double air_k = 0.0282;

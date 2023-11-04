@@ -23,7 +23,9 @@ add_executable(autoaim autoaim.cpp
                 Tracker/Tracker.cpp Tracker/Tracker.hpp
                 Serial/Serial.cpp Serial/Serial.hpp Rune/Rune.cpp Rune/Rune.hpp
         Tracker/EKF.cpp
-        Tracker/EKF.hpp)
+        Tracker/EKF.hpp
+        Tracker/avgFilter.cpp
+        Tracker/avgFilter.hpp)
 target_link_libraries(autoaim ${OpenCV_LIBS} ${InferenceEngine_LIBRARIES})
 target_link_libraries(autoaim ${CERES_LIBRARIES} -lserialport)
 # 包含海康相机动态链接库

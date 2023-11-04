@@ -5,14 +5,16 @@
 #include <libserialport.h>
 #include "../Detector/Detector.hpp"
 #include "../Tracker/Tracker.hpp"
-
+#include "../Tracker/avgFilter.hpp"
 
 class Serial {
-public:
+private:
     Detector *serial_Detector;
     Tracker *serial_Tracker;
     bool sp_ret;
-
+    class avgFilter yawFilter;
+    class avgFilter pitchFilter;
+public:
     std::string msg;
 //    char buffer[25]="BY 111.11P  22.22S33.33E";
     char buffer[25];
