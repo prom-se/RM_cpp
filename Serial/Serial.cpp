@@ -30,9 +30,11 @@ bool Serial::open() {
         else {
             if(serial_Detector->Armor.nums!=0){
                 double yaw,pitch;
-                yaw=serial_Tracker->CarTracker.pre_yaw;
-                pitch=serial_Tracker->CarTracker.pre_pitch;
-                if(abs(yaw)<2)yaw=0;if(abs(pitch)<2)pitch=0;
+//                yaw=serial_Tracker->CarTracker.pre_yaw;
+//                pitch=serial_Tracker->CarTracker.pre_pitch;
+                yaw=serial_Detector->yaw;
+                pitch=serial_Detector->offset_pitch;
+//                if(abs(yaw)<1)yaw=0;if(abs(pitch)<1)pitch=0;
                 msg = "A";msg += "Y";
                 if(yaw>0)msg += "+";
                 else msg += "-";

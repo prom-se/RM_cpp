@@ -258,7 +258,7 @@ void Tracker::draw(){
 
 Tracker::Tracker(class Detector &Detector){
     Tracker::track_Detector = &Detector;
-    disFilter.Size=30;
+    disFilter.Size=3;
     cv::Mat(3, 3, CV_64FC1, const_cast<double *>(cameraMatrix_1.data())).copyTo(cameraMatrix);
     cv::Mat(1, 5, CV_64FC1, const_cast<double *>(distCoeffs_1.data())).copyTo(distCoeffs);
 
