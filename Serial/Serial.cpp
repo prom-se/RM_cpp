@@ -1,8 +1,8 @@
 #include "Serial.hpp"
 
 Serial::Serial(Detector &Detector, Tracker &Tracker) {
-    yawFilter.Size=100;
-    pitchFilter.Size=100;
+    yawFilter.Size=5;
+    pitchFilter.Size=5;
     serial_Detector = &Detector;
     serial_Tracker = &Tracker;
     sp_ret = open();
@@ -29,12 +29,10 @@ bool Serial::open() {
         }
         else {
             if(serial_Detector->Armor.nums!=0){
-                yawFilter.update(serial_Tracker->CarTracker.pre_yaw);
-                pitchFilter.update(serial_Tracker->CarTracker.pre_pitch);
                 double yaw,pitch;
-                yawFilter.get_avg(yaw);
-                pitchFilter.get_avg(pitch);
-                if(abs(yaw)<1)yaw=0;if(abs(pitch)<1)pitch=0;
+                yaw=serial_Tracker->CarTracker.pre_yaw;
+                pitch=serial_Tracker->CarTracker.pre_pitch;
+                if(abs(yaw)<2)yaw=0;if(abs(pitch)<2)pitch=0;
                 msg = "A";msg += "Y";
                 if(yaw>0)msg += "+";
                 else msg += "-";
