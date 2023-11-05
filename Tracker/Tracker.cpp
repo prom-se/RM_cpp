@@ -202,7 +202,7 @@ void Tracker::car_init(){
 
 void Tracker::car_reFind() {
     double dis = sqrt(pow(CarTracker.predict(0),2)+pow(CarTracker.predict(1),2));
-    CarTracker.pre_yaw=atan2(CarTracker.predict(0),CarTracker.predict(1))*180/CV_PI;
+    CarTracker.pre_yaw=atan2(CarTracker.predict(0),CarTracker.predict(1))*180/CV_PI -selfYaw;
     CarTracker.pre_pitch = atan2(track_Detector->offset_y,dis)*180/CV_PI;
     double fx = cameraMatrix.at<double>(0, 0);
     double fy = cameraMatrix.at<double>(1, 1);
@@ -238,6 +238,8 @@ void Tracker::draw(){
     if(CarTracker.dis != 0){
         cv::circle(track_Detector->show, target, 10,cv::Scalar(255, 0,255), 3);
         cv::circle(track_Detector->show, org, 5,cv::Scalar(100, 0,255), 3);
+        cv::putText(track_Detector->show,cv::format("t_yaw:%2f t_pitch:%2f",CarTracker.t_yaw,CarTracker.t_pitch),cv::Point2i(50, 250),cv::FONT_HERSHEY_SIMPLEX,
+                    1,cv::Scalar(0,255,255),2);
         cv::putText(track_Detector->show,cv::format("pre_yaw:%2f pre_pitch:%2f",CarTracker.pre_yaw,CarTracker.pre_pitch),cv::Point2i(50, 500),cv::FONT_HERSHEY_SIMPLEX,
                     1,cv::Scalar(0,255,255),2);
         cv::putText(track_Detector->show,cv::format("pre_x:%2f pre_y:%2f",CarTracker.predict(0),CarTracker.predict(1)),cv::Point2i(50, 450),cv::FONT_HERSHEY_SIMPLEX,

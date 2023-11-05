@@ -334,7 +334,7 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
     now_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     delta_time = delta_time + (double)(now_time - start_time)/1000.0;
     fps = frames*1000.0 / (delta_time);
-    if(frames==20) {
+    if(frames==50) {
         if(isRune)printf("Rune Mode\n");
         else printf("Armor Mode\n");
         if(Armor.nums && !isRune){

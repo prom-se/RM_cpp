@@ -9,7 +9,7 @@
 #include "avgFilter.hpp"
 #include <ceres/ceres.h>
 
-//#define USE_MSG //使用串口信息
+#define USE_MSG //使用串口信息
 
 const std::vector<cv::Point3d> small_Armor = {cv::Point3f(-67.5, 27.5, 0),
                                               cv::Point3f(-67.5, -27.5, 0),
