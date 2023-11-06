@@ -10,7 +10,12 @@ bool Tracker::pnpSolve(){
         Armor_Point = track_Detector->Armor.type[track_Detector->Armor.best_index] == 'b' ? &large_Armor:&small_Armor;
         cv::solvePnP(*Armor_Point, track_Detector->Armor.pix_position[track_Detector->Armor.best_index],
                      cameraMatrix, distCoeffs, rvec, tvec, false,cv::SOLVEPNP_IPPE);
+
         tvec.at<double>(0,1) = -tvec.at<double>(0,1);
+        tvec.at<double>(0,0) += xyzFix.at(0);
+        tvec.at<double>(0,1) += xyzFix.at(1);
+        tvec.at<double>(0,2) += xyzFix.at(2);
+
         track_Detector->Target_rvec = rvec;track_Detector->Target_tvec = tvec/10;
         track_Detector->Target_dis = sqrt(pow(tvec.at<double>(0,0),2)+pow(tvec.at<double>(0,1),2)+pow(tvec.at<double>(0,2),2))/10;
         track_Detector->yaw = atan2(tvec.at<double>(0,0),tvec.at<double>(0,2)) * 180 / CV_PI;
@@ -61,6 +66,7 @@ bool Tracker::track() {
     ret = pnpSolve();
     if(!ret) return false;
     offset();
+    track_Detector->offset_pitch += PitchFix.at(0);
     trackTarget();
     draw();
     return true;
@@ -101,9 +107,9 @@ void Tracker::buff_init(){
         BuffTracker.targetTheta = acos(k)* 180 / CV_PI;
         BuffTracker.targetTheta = track_Detector->rune.targets.center[track_Detector->rune.targets.index_Target].y<BuffTracker.R_position.y ? BuffTracker.targetTheta : 360-BuffTracker.targetTheta;
         double predic = BuffTracker.color=="blue"?BuffTracker.spd*offset_time*3/2:-BuffTracker.spd*offset_time*3/2;
-        BuffTracker.predicTheta=BuffTracker.targetTheta+predic;
-        BuffTracker.Target_position.x = BuffTracker.radius*cos( BuffTracker.predicTheta*CV_PI/180)+BuffTracker.R_position.x;
-        BuffTracker.Target_position.y = -BuffTracker.radius*sin( BuffTracker.predicTheta*CV_PI/180)+BuffTracker.R_position.y;
+        BuffTracker.preTheta=BuffTracker.targetTheta+predic;
+        BuffTracker.Target_position.x = BuffTracker.radius*cos( BuffTracker.preTheta*CV_PI/180)+BuffTracker.R_position.x;
+        BuffTracker.Target_position.y = -BuffTracker.radius*sin( BuffTracker.preTheta*CV_PI/180)+BuffTracker.R_position.y;
     }
     else if(!BuffTracker.isSmall){
         double k = (track_Detector->rune.targets.center[track_Detector->rune.targets.index_Target].x-BuffTracker.R_position.x)/BuffTracker.radius;
@@ -112,8 +118,8 @@ void Tracker::buff_init(){
         BuffTracker.targetTheta = acos(k)* 180 / CV_PI;
         BuffTracker.targetTheta = track_Detector->rune.targets.center[track_Detector->rune.targets.index_Target].y<BuffTracker.R_position.y ? BuffTracker.targetTheta : 360-BuffTracker.targetTheta;
         Big_buff_track();
-        BuffTracker.Target_position.x = BuffTracker.radius*cos( BuffTracker.predicTheta*CV_PI/180)+BuffTracker.R_position.x;
-        BuffTracker.Target_position.y = -BuffTracker.radius*sin( BuffTracker.predicTheta*CV_PI/180)+BuffTracker.R_position.y;
+        BuffTracker.Target_position.x = BuffTracker.radius*cos( BuffTracker.preTheta*CV_PI/180)+BuffTracker.R_position.x;
+        BuffTracker.Target_position.y = -BuffTracker.radius*sin( BuffTracker.preTheta*CV_PI/180)+BuffTracker.R_position.y;
     }
     double fx = cameraMatrix.at<double>(0, 0);
     double fy = cameraMatrix.at<double>(1, 1);
@@ -167,7 +173,7 @@ void Tracker::Big_buff_track() {
         double predic = BuffTracker.color=="red"? -(a*ceres::sin(offset_time*3/2)*ceres::sin(b*now_time+c-offset_time*3/2/2)+ d * offset_time*3/2)
                 :a*ceres::sin(offset_time*3/2)*ceres::sin(b*now_time+c-offset_time*3/2/2)+ d * offset_time*3/2;
         predic = predic * 180 / CV_PI;
-        BuffTracker.predicTheta=BuffTracker.targetTheta+predic;
+        BuffTracker.preTheta=BuffTracker.targetTheta+predic;
     }
 }
 
@@ -229,7 +235,7 @@ void Tracker::draw(){
                     1,cv::Scalar(0,255,255),2);
         cv::putText(track_Detector->show,cv::format("Theta:%2f",BuffTracker.targetTheta),cv::Point2i(50, 300),cv::FONT_HERSHEY_SIMPLEX,
                     1,cv::Scalar(0,255,255),2);
-        cv::putText(track_Detector->show,cv::format("predicTheta:%2f",BuffTracker.predicTheta),cv::Point2i(50, 350),cv::FONT_HERSHEY_SIMPLEX,
+        cv::putText(track_Detector->show,cv::format("preTheta:%2f",BuffTracker.preTheta),cv::Point2i(50, 350),cv::FONT_HERSHEY_SIMPLEX,
                     1,cv::Scalar(0,255,255),2);
         cv::putText(track_Detector->show,cv::format("a:%2f b:%2f c:%2f d:%2f",a,b,c,d),cv::Point2i(50, 400),cv::FONT_HERSHEY_SIMPLEX,
                     1,cv::Scalar(0,255,255),2);

@@ -11,6 +11,9 @@
 
 #define USE_MSG //使用串口信息
 
+const std::array<double,3> xyzFix = {0,0,0}; // mm
+const std::array<double,1> PitchFix = {0};
+
 const std::vector<cv::Point3d> small_Armor = {cv::Point3f(-67.5, 27.5, 0),
                                               cv::Point3f(-67.5, -27.5, 0),
                                               cv::Point3f(67.5, 27.5, 0),
@@ -58,7 +61,7 @@ struct buffTracker{
     double spd = 0;//角速度
     double targetTheta = 0;//目标角度
     double lastTheta = 0;//上一帧角度
-    double predicTheta;
+    double preTheta;
     cv::Point2f R_position;
     cv::Point2d Target_position;
 
