@@ -13,12 +13,6 @@ private:
 public:
     int Size;
     void update(double data) {
-        if(!buffer.empty() && std::abs(data)<5){
-            if(buffer[buffer.size()-1]>0 && data<0
-                or buffer[buffer.size()-1]<0 && data>0){
-                data=0;
-            }
-        }
         if(buffer.size()==Size){
             buffer.erase(buffer.begin());
             buffer.emplace_back(data);

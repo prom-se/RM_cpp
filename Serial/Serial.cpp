@@ -29,9 +29,10 @@ bool Serial::open() {
         }
         else {
             if(serial_Detector->Armor.nums!=0){
-                double yaw,pitch;
-//                yaw=serial_Tracker->CarTracker.pre_yaw;
-//                pitch=serial_Tracker->CarTracker.pre_pitch;
+                double yaw,pitch,fYaw,fPitch;
+                yawFilter.update(serial_Detector->yaw);
+                pitchFilter.update(serial_Detector->offset_pitch);
+                yawFilter.get_avg(fYaw);pitchFilter.get_avg(fPitch);
                 yaw=serial_Detector->yaw;
                 pitch=serial_Detector->offset_pitch;
 //                if(abs(yaw)<1)yaw=0;if(abs(pitch)<1)pitch=0;
@@ -43,7 +44,7 @@ bool Serial::open() {
                 if(pitch>0)msg += "+";
                 else msg += "-";
                 msg += cv::format("%06.2f",abs(pitch));
-                if(abs(yaw) < 5 && abs(pitch) < 5) msg += "F";
+                if(abs(fYaw) < 5 && abs(fPitch) < 5) msg += "F";
                 else msg += "N";
                 msg += "E";
                 sp_blocking_write(serPort,msg.c_str(),19,0);
