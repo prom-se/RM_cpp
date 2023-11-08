@@ -81,8 +81,8 @@ void Tracker::trackTarget() {
         ekf_filter.predict();
         ekf_filter.update(CarTracker.pos);
         pre_k = 1*offset_time*track_Detector->fps;
-        CarTracker.predict(0)=-pre_k*(ekf_filter.x(0)-CarTracker.pos(0))+CarTracker.pos(0);
-        CarTracker.predict(1)=-pre_k*(ekf_filter.x(1)-CarTracker.pos(1))+CarTracker.pos(1);
+        CarTracker.predict(0)=-pre_k*CarTracker.pos(2)+CarTracker.pos(0);
+        CarTracker.predict(1)=-pre_k*CarTracker.pos(3)+CarTracker.pos(1);
         car_reFind();
     }
 }
