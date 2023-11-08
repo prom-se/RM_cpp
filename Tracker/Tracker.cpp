@@ -208,7 +208,7 @@ void Tracker::car_init(){
 
 void Tracker::car_reFind() {
     double dis = sqrt(pow(CarTracker.predict(0),2)+pow(CarTracker.predict(1),2));
-    CarTracker.pre_yaw=atan2(CarTracker.predict(0),CarTracker.predict(1))*180/CV_PI -selfYaw;
+    CarTracker.pre_yaw=atan2(CarTracker.predict(0),CarTracker.predict(1))*180/CV_PI;
     CarTracker.pre_pitch = atan2(track_Detector->offset_y,dis)*180/CV_PI;
     double fx = cameraMatrix.at<double>(0, 0);
     double fy = cameraMatrix.at<double>(1, 1);
