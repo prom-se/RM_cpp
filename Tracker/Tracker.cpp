@@ -80,7 +80,7 @@ void Tracker::trackTarget() {
         car_init();
         ekf_filter.predict();
         ekf_filter.update(CarTracker.pos);
-        pre_k = 5*offset_time*track_Detector->fps;
+        pre_k = 1*offset_time*track_Detector->fps;
         CarTracker.predict(0)=-pre_k*(ekf_filter.x(0)-CarTracker.pos(0))+CarTracker.pos(0);
         CarTracker.predict(1)=-pre_k*(ekf_filter.x(1)-CarTracker.pos(1))+CarTracker.pos(1);
         car_reFind();
@@ -210,7 +210,11 @@ void Tracker::car_init(){
 
 void Tracker::car_reFind() {
     double dis = sqrt(pow(CarTracker.predict(0),2)+pow(CarTracker.predict(1),2));
-    CarTracker.pre_yaw=atan2(CarTracker.predict(0),CarTracker.predict(1))*180/CV_PI;
+    if((CarTracker.predict(1)/CarTracker.dis)>=1){CarTracker.pre_yaw=90;}
+    else{CarTracker.pre_yaw=asin(CarTracker.predict(1)/CarTracker.dis)*180/CV_PI;}
+    if(CarTracker.predict(0)<0) CarTracker.pre_yaw=180-CarTracker.pre_yaw;
+    CarTracker.pre_yaw = -(CarTracker.pre_yaw-selfYaw);
+    if(CarTracker.pre_yaw<0) CarTracker.pre_yaw+=360;
     CarTracker.pre_pitch = track_Detector->offset_pitch;
     double fx = cameraMatrix.at<double>(0, 0);
     double fy = cameraMatrix.at<double>(1, 1);
