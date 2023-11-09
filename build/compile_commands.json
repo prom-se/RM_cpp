@@ -1,37 +1,37 @@
 [
 {
   "directory": "/home/orangepi/Desktop/RM_cpp/build",
-  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -isystem /usr/local/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/autoaim.dir/autoaim.cpp.o -c /home/orangepi/Desktop/RM_cpp/autoaim.cpp",
+  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4  -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/autoaim.dir/autoaim.cpp.o -c /home/orangepi/Desktop/RM_cpp/autoaim.cpp",
   "file": "/home/orangepi/Desktop/RM_cpp/autoaim.cpp"
 },
 
 {
   "directory": "/home/orangepi/Desktop/RM_cpp/build",
-  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -isystem /usr/local/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o -c /home/orangepi/Desktop/RM_cpp/hik_camera/HikCam.cpp",
+  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4  -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o -c /home/orangepi/Desktop/RM_cpp/hik_camera/HikCam.cpp",
   "file": "/home/orangepi/Desktop/RM_cpp/hik_camera/HikCam.cpp"
 },
 
 {
   "directory": "/home/orangepi/Desktop/RM_cpp/build",
-  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -isystem /usr/local/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/autoaim.dir/Detector/Detector.cpp.o -c /home/orangepi/Desktop/RM_cpp/Detector/Detector.cpp",
+  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4  -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/autoaim.dir/Detector/Detector.cpp.o -c /home/orangepi/Desktop/RM_cpp/Detector/Detector.cpp",
   "file": "/home/orangepi/Desktop/RM_cpp/Detector/Detector.cpp"
 },
 
 {
   "directory": "/home/orangepi/Desktop/RM_cpp/build",
-  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -isystem /usr/local/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o -c /home/orangepi/Desktop/RM_cpp/Tracker/Tracker.cpp",
+  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4  -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o -c /home/orangepi/Desktop/RM_cpp/Tracker/Tracker.cpp",
   "file": "/home/orangepi/Desktop/RM_cpp/Tracker/Tracker.cpp"
 },
 
 {
   "directory": "/home/orangepi/Desktop/RM_cpp/build",
-  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -isystem /usr/local/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o -c /home/orangepi/Desktop/RM_cpp/Tracker/EKF.cpp",
+  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4  -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o -c /home/orangepi/Desktop/RM_cpp/Tracker/EKF.cpp",
   "file": "/home/orangepi/Desktop/RM_cpp/Tracker/EKF.cpp"
 },
 
 {
   "directory": "/home/orangepi/Desktop/RM_cpp/build",
-  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -isystem /usr/local/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/autoaim.dir/Serial/Serial.cpp.o -c /home/orangepi/Desktop/RM_cpp/Serial/Serial.cpp",
+  "command": "/usr/bin/aarch64-linux-gnu-g++   -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4  -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/autoaim.dir/Serial/Serial.cpp.o -c /home/orangepi/Desktop/RM_cpp/Serial/Serial.cpp",
   "file": "/home/orangepi/Desktop/RM_cpp/Serial/Serial.cpp"
 }
 ]

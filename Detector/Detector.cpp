@@ -310,8 +310,9 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
     fps = frames*1000.0 / (delta_time);
     if(frames==50) {
         printf("Armor Mode\n");
-        if(!rune.boxes.empty()) {
-            printf("Rune FOUND !!\n");
+        if(Armor.nums){
+            printf("Armor FOUND !!\n");
+            printf("Number:%s\n", Armor.number[Armor.best_index].c_str());
             printf("Distance:%.2fcm\n", Target_dis);
         }
         else{
@@ -341,7 +342,7 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
 
 void Detector::log(){
     time_t now = time(nullptr);
-    writer.open(cv::format("../log/%s.avi",ctime(&now)),cv::VideoWriter::fourcc('D','I','V','X'), 100, cv::Size(1280, 1024));
+    writer.open(cv::format("../log/%s.avi",ctime(&now)),cv::VideoWriter::fourcc('M','J','P','G'), 100, cv::Size(1280, 1024));
     while(!drawed.empty()){
         writer.write(drawed);
     }

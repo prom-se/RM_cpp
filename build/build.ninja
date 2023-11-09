@@ -12,7 +12,7 @@
 
 # =============================================================================
 # Project: RM_cpp
-# Configuration: Debug
+# Configuration: Release
 # =============================================================================
 
 #############################################
@@ -64,43 +64,43 @@ build cmake_object_order_depends_target_autoaim: phony || CMakeFiles/autoaim.dir
 
 build CMakeFiles/autoaim.dir/autoaim.cpp.o: CXX_COMPILER__autoaim ../autoaim.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/autoaim.cpp.o.d
-  FLAGS = -g   -std=gnu++17
-  INCLUDES = -I/opt/MVS/include -isystem /usr/local/include/opencv4
+  FLAGS = -O3 -DNDEBUG   -std=gnu++11
+  INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir
 
 build CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o: CXX_COMPILER__autoaim ../hik_camera/HikCam.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o.d
-  FLAGS = -g   -std=gnu++17
-  INCLUDES = -I/opt/MVS/include -isystem /usr/local/include/opencv4
+  FLAGS = -O3 -DNDEBUG   -std=gnu++11
+  INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/hik_camera
 
 build CMakeFiles/autoaim.dir/Detector/Detector.cpp.o: CXX_COMPILER__autoaim ../Detector/Detector.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/Detector/Detector.cpp.o.d
-  FLAGS = -g   -std=gnu++17
-  INCLUDES = -I/opt/MVS/include -isystem /usr/local/include/opencv4
+  FLAGS = -O3 -DNDEBUG   -std=gnu++11
+  INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/Detector
 
 build CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o: CXX_COMPILER__autoaim ../Tracker/Tracker.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o.d
-  FLAGS = -g   -std=gnu++17
-  INCLUDES = -I/opt/MVS/include -isystem /usr/local/include/opencv4
+  FLAGS = -O3 -DNDEBUG   -std=gnu++11
+  INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/Tracker
 
 build CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o: CXX_COMPILER__autoaim ../Tracker/EKF.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o.d
-  FLAGS = -g   -std=gnu++17
-  INCLUDES = -I/opt/MVS/include -isystem /usr/local/include/opencv4
+  FLAGS = -O3 -DNDEBUG   -std=gnu++11
+  INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/Tracker
 
 build CMakeFiles/autoaim.dir/Serial/Serial.cpp.o: CXX_COMPILER__autoaim ../Serial/Serial.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/Serial/Serial.cpp.o.d
-  FLAGS = -g   -std=gnu++17
-  INCLUDES = -I/opt/MVS/include -isystem /usr/local/include/opencv4
+  FLAGS = -O3 -DNDEBUG   -std=gnu++11
+  INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/Serial
 
@@ -113,8 +113,8 @@ build CMakeFiles/autoaim.dir/Serial/Serial.cpp.o: CXX_COMPILER__autoaim ../Seria
 # Link the executable autoaim
 
 build autoaim: CXX_EXECUTABLE_LINKER__autoaim CMakeFiles/autoaim.dir/autoaim.cpp.o CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o CMakeFiles/autoaim.dir/Detector/Detector.cpp.o CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o CMakeFiles/autoaim.dir/Serial/Serial.cpp.o | /usr/local/lib/libopencv_gapi.so.4.8.0 /usr/local/lib/libopencv_highgui.so.4.8.0 /usr/local/lib/libopencv_ml.so.4.8.0 /usr/local/lib/libopencv_objdetect.so.4.8.0 /usr/local/lib/libopencv_photo.so.4.8.0 /usr/local/lib/libopencv_stitching.so.4.8.0 /usr/local/lib/libopencv_video.so.4.8.0 /usr/local/lib/libopencv_videoio.so.4.8.0 /opt/MVS/lib/aarch64/libMvCameraControl.so /usr/local/lib/libopencv_imgcodecs.so.4.8.0 /usr/local/lib/libopencv_dnn.so.4.8.0 /usr/local/lib/libopencv_calib3d.so.4.8.0 /usr/local/lib/libopencv_features2d.so.4.8.0 /usr/local/lib/libopencv_flann.so.4.8.0 /usr/local/lib/libopencv_imgproc.so.4.8.0 /usr/local/lib/libopencv_core.so.4.8.0
-  FLAGS = -g
-  LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib:/opt/MVS/lib/aarch64  /usr/local/lib/libopencv_gapi.so.4.8.0  /usr/local/lib/libopencv_highgui.so.4.8.0  /usr/local/lib/libopencv_ml.so.4.8.0  /usr/local/lib/libopencv_objdetect.so.4.8.0  /usr/local/lib/libopencv_photo.so.4.8.0  /usr/local/lib/libopencv_stitching.so.4.8.0  /usr/local/lib/libopencv_video.so.4.8.0  /usr/local/lib/libopencv_videoio.so.4.8.0  -lserialport  /opt/MVS/lib/aarch64/libMvCameraControl.so  /usr/local/lib/libopencv_imgcodecs.so.4.8.0  /usr/local/lib/libopencv_dnn.so.4.8.0  /usr/local/lib/libopencv_calib3d.so.4.8.0  /usr/local/lib/libopencv_features2d.so.4.8.0  /usr/local/lib/libopencv_flann.so.4.8.0  /usr/local/lib/libopencv_imgproc.so.4.8.0  /usr/local/lib/libopencv_core.so.4.8.0
+  FLAGS = -O3 -DNDEBUG
+  LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib:/opt/MVS/lib/aarch64  /usr/local/lib/libopencv_gapi.so.4.8.0  /usr/local/lib/libopencv_highgui.so.4.8.0  /usr/local/lib/libopencv_ml.so.4.8.0  /usr/local/lib/libopencv_objdetect.so.4.8.0  /usr/local/lib/libopencv_photo.so.4.8.0  /usr/local/lib/libopencv_stitching.so.4.8.0  /usr/local/lib/libopencv_video.so.4.8.0  /usr/local/lib/libopencv_videoio.so.4.8.0  -lserialport  -pthread  /opt/MVS/lib/aarch64/libMvCameraControl.so  /usr/local/lib/libopencv_imgcodecs.so.4.8.0  /usr/local/lib/libopencv_dnn.so.4.8.0  /usr/local/lib/libopencv_calib3d.so.4.8.0  /usr/local/lib/libopencv_features2d.so.4.8.0  /usr/local/lib/libopencv_flann.so.4.8.0  /usr/local/lib/libopencv_imgproc.so.4.8.0  /usr/local/lib/libopencv_core.so.4.8.0
   OBJECT_DIR = CMakeFiles/autoaim.dir
   POST_BUILD = :
   PRE_LINK = :

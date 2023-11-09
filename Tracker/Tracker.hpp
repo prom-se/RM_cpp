@@ -61,7 +61,7 @@ struct carTracker{
     Eigen::Vector2d predict;
     double pre_yaw,pre_pitch;
     bool switched=false;
-    double last_yaw,last_pitch;
+    double last_x,last_y;
 };
 
 class Tracker {
@@ -76,8 +76,7 @@ public:
     double speed = 20;
     double pre_k=10;
     double offset_time{};
-    explicit Tracker(class Detector &Detector);
-    buffTracker BuffTracker;
+    explicit Tracker(class Detector &Detector);    
     carTracker CarTracker;
     cv::Point2f target,org;
     EKF ekf_filter;

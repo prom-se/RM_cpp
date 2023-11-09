@@ -30,14 +30,8 @@ bool Tracker::offset(){
     int iteration = 20;
     double aim_y, real_y, theta, time;
     double x_distance, y_distance;
-    if(!track_Detector->isRune){
-        x_distance = sqrt(pow(track_Detector->Target_tvec.at<double>(0,0),2)+pow(track_Detector->Target_tvec.at<double>(0,2),2))/100;
-        y_distance = track_Detector->Target_tvec.at<double>(0,1)/100;
-    }
-    else if (track_Detector->isRune){
-        x_distance = track_Detector->Target_dis/100;
-        y_distance = 1.4 * sin(BuffTracker.targetTheta/180*CV_PI);
-    }
+    x_distance = sqrt(pow(track_Detector->Target_tvec.at<double>(0,0),2)+pow(track_Detector->Target_tvec.at<double>(0,2),2))/100;
+    y_distance = track_Detector->Target_tvec.at<double>(0,1)/100;
     aim_y = y_distance;
     for(int i=0;i<iteration;i++){
         theta = atan2(aim_y,x_distance);
@@ -67,20 +61,26 @@ bool Tracker::track() {
 
 void Tracker::trackTarget() {
     car_init();
-    ekf_filter.predict();
-    ekf_filter.update(CarTracker.pos);
-    pre_k = 1*offset_time*track_Detector->fps;
-    CarTracker.predict(0)=-pre_k*CarTracker.pos(2)+CarTracker.pos(0);
-    CarTracker.predict(1)=-pre_k*CarTracker.pos(3)+CarTracker.pos(1);
+    if(CarTracker.switched){
+        ekf_filter.x(0)=CarTracker.pos(0);
+        ekf_filter.x(1)=CarTracker.pos(1);
+        ekf_filter.predict();
+        Eigen::Vector2d measurement;
+        measurement(0)=ekf_filter.x(2)+CarTracker.pos(0);
+        measurement(1)=ekf_filter.x(3)+CarTracker.pos(1);
+        ekf_filter.update(measurement);
+    }
+    else{
+        ekf_filter.predict();
+        ekf_filter.update(CarTracker.pos);
+    }
+    pre_k = 3;
+    CarTracker.predict(0)=pre_k*ekf_filter.x(2)+CarTracker.pos(0);
+    CarTracker.predict(1)=pre_k*ekf_filter.x(3)+CarTracker.pos(1);
     car_reFind();
 }
 
 void Tracker::car_init(){
-    if(!CarTracker.switched){
-        ekf_filter.init();
-        ekf_filter.x(0)=CarTracker.pos(0);
-        ekf_filter.x(1)=CarTracker.pos(1);
-    }
 #ifndef USE_MSG
     selfYaw=0;selfPitch=0;
 #endif
@@ -89,21 +89,20 @@ void Tracker::car_init(){
     if(CarTracker.t_yaw>360) CarTracker.t_yaw-=360;
     if(CarTracker.t_yaw<0) CarTracker.t_yaw+=360;
     CarTracker.dis = track_Detector->Target_dis;
-    double delta_yaw,delta_pitch;
-    delta_yaw = abs(CarTracker.t_yaw-CarTracker.last_yaw);
-    delta_pitch = abs(CarTracker.t_pitch-CarTracker.last_pitch);
     CarTracker.pos(0)=CarTracker.dis*cos(CarTracker.t_yaw/180*CV_PI);
     CarTracker.pos(1)=CarTracker.dis*sin(CarTracker.t_yaw/180*CV_PI);
-    if(delta_yaw > 1 || delta_pitch > 1){
+
+    double delta_x,delta_y;
+    delta_x = abs(CarTracker.pos(0)-CarTracker.last_x);
+    delta_y = abs(CarTracker.pos(1)-CarTracker.last_y);
+    if(delta_x > 10 || delta_y > 10){
         CarTracker.switched=true;
-        ekf_filter.x(0)=CarTracker.pos(0);
-        ekf_filter.x(1)=CarTracker.pos(1);
     }
     else{
         CarTracker.switched=false;
     }
-    CarTracker.last_yaw = CarTracker.t_yaw;
-    CarTracker.last_pitch = CarTracker.t_pitch;
+    CarTracker.last_x = CarTracker.pos(0);
+    CarTracker.last_y = CarTracker.pos(1);
 }
 
 void Tracker::car_reFind() {
@@ -113,8 +112,14 @@ void Tracker::car_reFind() {
     if(CarTracker.predict(0)<0) CarTracker.pre_yaw=180-CarTracker.pre_yaw;
     if(CarTracker.predict(0)>0 && CarTracker.predict(1)<0) CarTracker.pre_yaw=CarTracker.pre_yaw+360;
     CarTracker.pre_yaw = -(CarTracker.pre_yaw-selfYaw);
-    if(CarTracker.pre_yaw>360) CarTracker.pre_yaw-=360;
+
+    if(CarTracker.pre_yaw> 360) CarTracker.pre_yaw-=360;
     if(CarTracker.pre_yaw<-360) CarTracker.pre_yaw+=360;
+
+    if(CarTracker.pre_yaw> 180) CarTracker.pre_yaw-=360;
+    if(CarTracker.pre_yaw<-180) CarTracker.pre_yaw+=360;
+
+
     CarTracker.pre_pitch = track_Detector->offset_pitch;
     double fx = cameraMatrix.at<double>(0, 0);
     double fy = cameraMatrix.at<double>(1, 1);
@@ -157,6 +162,7 @@ void Tracker::draw(){
 
 Tracker::Tracker(class Detector &Detector){
     Tracker::track_Detector = &Detector;
+    ekf_filter.init();
     disFilter.Size=3;
     cv::Mat(3, 3, CV_64FC1, const_cast<double *>(cameraMatrix_1.data())).copyTo(cameraMatrix);
     cv::Mat(1, 5, CV_64FC1, const_cast<double *>(distCoeffs_1.data())).copyTo(distCoeffs);
