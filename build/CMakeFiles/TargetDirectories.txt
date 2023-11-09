@@ -1,0 +1,3 @@
+/home/orangepi/Desktop/RM_cpp/build/CMakeFiles/edit_cache.dir
+/home/orangepi/Desktop/RM_cpp/build/CMakeFiles/rebuild_cache.dir
+/home/orangepi/Desktop/RM_cpp/build/CMakeFiles/autoaim.dir

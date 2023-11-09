@@ -234,34 +234,19 @@ bool Detector::matchLightBar(){
 bool Detector::detect(){
     memset(&Armor, 0, sizeof(Armor));
     memset(&susBar, 0, sizeof(susBar));
-    memset(&rune.boxes, 0, sizeof(rune.boxes));
-    memset(&rune.indexes, 0, sizeof(rune.indexes));
-    memset(&rune.classIds, 0, sizeof(rune.classIds));
-    memset(&rune.confidences, 0, sizeof(rune.confidences));
-    memset(&rune.targets, 0, sizeof(rune.targets));
 
     src.copyTo(show);
     frames++;
     bool ret;
     ret = !src.empty();
     if(!ret) return false;
-    if(!isRune){
-        cv::cvtColor(src, dst,cv::COLOR_BGR2GRAY);
-        dst.copyTo(gray);
-        cv::threshold(dst, dst, ThresholdValue, 255, 0);
-        ret = findLightBar();
-        if(!ret) return false;
-        ret = matchLightBar();
-        if(!ret) return false;
-    }
-    else{
-        rune.targets.color = target_color;
-
-        rune.prepare(src);
-//        rune.infer_v5();
-        rune.infer_v8();
-        rune.findTarget();
-    }
+    cv::cvtColor(src, dst,cv::COLOR_BGR2GRAY);
+    dst.copyTo(gray);
+    cv::threshold(dst, dst, ThresholdValue, 255, 0);
+    ret = findLightBar();
+    if(!ret) return false;
+    ret = matchLightBar();
+    if(!ret) return false;
     return true;
 }
 
@@ -314,17 +299,6 @@ void Detector::draw(){
         cv::putText(show,cv::format("%c",Armor.type[i]),Armor.pix_position[i][2], cv::FONT_HERSHEY_SIMPLEX,
                     1,cv::Scalar(0,255,255),2);
     }
-    for(int i=0;i<rune.targets.pix_position.size();i++) {
-        std::vector<cv::Point2f> point = rune.targets.pix_position[i];
-        if(i==rune.targets.index_R) cv::putText(show(cv::Rect(show.cols/2-640,show.rows/2-512,1280,1024)), "R", point[0],cv::FONT_HERSHEY_SIMPLEX, 1,cv::Scalar(0,0,255), 2);
-        else if(i==rune.targets.index_Target) cv::putText(show(cv::Rect(show.cols/2-640,show.rows/2-512,1280,1024)), "Target", point[0],cv::FONT_HERSHEY_SIMPLEX, 1,cv::Scalar(0,0,255), 2);
-        else if(std::find(rune.targets.index_Activatied.begin(),rune.targets.index_Activatied.end(),i)!=rune.targets.index_Activatied.end())cv::putText(show(cv::Rect(show.cols/2-640,show.rows/2-512,1280,1024)), "Activated", point[0],cv::FONT_HERSHEY_SIMPLEX, 1,cv::Scalar(0,0,255), 2);
-        cv::line(show(cv::Rect(show.cols/2-640,show.rows/2-512,1280,1024)), point[0], point[1], cv::Scalar(255, 0, 255), 2);
-        cv::line(show(cv::Rect(show.cols/2-640,show.rows/2-512,1280,1024)), point[0], point[2], cv::Scalar(255, 0, 255), 2);
-        cv::line(show(cv::Rect(show.cols/2-640,show.rows/2-512,1280,1024)), point[3], point[1], cv::Scalar(255, 0, 255), 2);
-        cv::line(show(cv::Rect(show.cols/2-640,show.rows/2-512,1280,1024)), point[3], point[2], cv::Scalar(255, 0, 255), 2);
-
-    }
     show.copyTo(drawed);
 }
 
@@ -335,14 +309,8 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
     delta_time = delta_time + (double)(now_time - start_time)/1000.0;
     fps = frames*1000.0 / (delta_time);
     if(frames==50) {
-        if(isRune)printf("Rune Mode\n");
-        else printf("Armor Mode\n");
-        if(Armor.nums && !isRune){
-            printf("Armor FOUND !!\n");
-            printf("Number:%s\n", Armor.number[Armor.best_index].c_str());
-            printf("Distance:%.2fcm\n", Target_dis);
-        }
-        else if(!rune.boxes.empty() && isRune){
+        printf("Armor Mode\n");
+        if(!rune.boxes.empty()) {
             printf("Rune FOUND !!\n");
             printf("Distance:%.2fcm\n", Target_dis);
         }
