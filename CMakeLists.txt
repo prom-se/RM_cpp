@@ -19,5 +19,5 @@ add_executable(autoaim autoaim.cpp
 
 target_link_libraries(autoaim ${OpenCV_LIBS} ${CERES_LIBRARIES} -lserialport -pthread)
 # 包含海康相机动态链接库
-find_library(MVS_LIB libMvCameraControl.so /opt/MVS/lib/aarch64/)
+find_library(MVS_LIB libMvCameraControl.so /opt/MVS/lib/64/)
 target_link_libraries(autoaim ${MVS_LIB})

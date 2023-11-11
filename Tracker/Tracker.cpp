@@ -61,22 +61,10 @@ bool Tracker::track() {
 
 void Tracker::trackTarget() {
     car_init();
-    if(CarTracker.switched){
-        ekf_filter.x(0)=CarTracker.pos(0);
-        ekf_filter.x(1)=CarTracker.pos(1);
-        ekf_filter.predict();
-        Eigen::Vector2d measurement;
-        measurement(0)=ekf_filter.x(2)+CarTracker.pos(0);
-        measurement(1)=ekf_filter.x(3)+CarTracker.pos(1);
-        ekf_filter.update(measurement);
-    }
-    else{
-        ekf_filter.predict();
-        ekf_filter.update(CarTracker.pos);
-    }
-    pre_k = 3;
-    CarTracker.predict(0)=pre_k*ekf_filter.x(2)+CarTracker.pos(0);
-    CarTracker.predict(1)=pre_k*ekf_filter.x(3)+CarTracker.pos(1);
+    ekf_filter.update(CarTracker.pos);
+    pre_k = 1.5;
+    CarTracker.predict(0)=pre_k*offset_time*ekf_filter.x(2)+CarTracker.pos(0);
+    CarTracker.predict(1)=pre_k*offset_time*ekf_filter.x(3)+CarTracker.pos(1);
     car_reFind();
 }
 
