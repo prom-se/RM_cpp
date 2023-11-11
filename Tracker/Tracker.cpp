@@ -19,7 +19,7 @@ bool Tracker::pnpSolve(){
         track_Detector->Target_rvec = rvec;track_Detector->Target_tvec = tvec/10;
         track_Detector->Target_dis = sqrt(pow(tvec.at<double>(0,0),2)+pow(tvec.at<double>(0,1),2)+pow(tvec.at<double>(0,2),2))/10;
         track_Detector->yaw = atan2(tvec.at<double>(0,0),tvec.at<double>(0,2)) * 180 / CV_PI;
-        track_Detector->pitch = atan2(tvec.at<double>(0,1),sqrt(pow(tvec.at<double>(0,0),2)+pow(tvec.at<double>(0,2),2))) * 180 / CV_PI;
+        track_Detector->pitch = atan2(tvec.at<double>(0,1),tvec.at<double>(0,2)) * 180 / CV_PI;
     }
     else{
         if(track_Detector->rune.targets.index_Target == -1) return false;
@@ -78,11 +78,10 @@ void Tracker::trackTarget() {
     }
     else{
         car_init();
-        ekf_filter.predict();
         ekf_filter.update(CarTracker.pos);
-        pre_k = 5;
-        CarTracker.predict(0)=pre_k*ekf_filter.x(2)+CarTracker.pos(0);
-        CarTracker.predict(1)=pre_k*ekf_filter.x(3)+CarTracker.pos(1);
+        pre_k = 1.5;
+        CarTracker.predict(0)=pre_k*offset_time*ekf_filter.x(2)+CarTracker.pos(0);
+        CarTracker.predict(1)=pre_k*offset_time*ekf_filter.x(3)+CarTracker.pos(1);
         car_reFind();
     }
 }
@@ -272,11 +271,10 @@ void Tracker::draw(){
 
 
 Tracker::Tracker(class Detector &Detector){
-    ekf_filter.init();
     Tracker::track_Detector = &Detector;
     disFilter.Size=3;
-    cv::Mat(3, 3, CV_64FC1, const_cast<double *>(cameraMatrix_1.data())).copyTo(cameraMatrix);
-    cv::Mat(1, 5, CV_64FC1, const_cast<double *>(distCoeffs_1.data())).copyTo(distCoeffs);
+    cv::Mat(3, 3, CV_64FC1, const_cast<double *>(cameraMatrix_2.data())).copyTo(cameraMatrix);
+    cv::Mat(1, 5, CV_64FC1, const_cast<double *>(distCoeffs_2.data())).copyTo(distCoeffs);
 
     problem.AddParameterBlock(&a,1);
     problem.AddParameterBlock(&b,1);

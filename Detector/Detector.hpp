@@ -49,9 +49,9 @@ public:
     cv::Mat gray = cv::Mat(1024, 1280, CV_8UC1);
 
     cv::Mat roi_bin = cv::Mat(640, 800, CV_8UC1);
-    std::string target_color = "blue"; // "red" or "blue"
+    std::string target_color = "red"; // "red" or "blue"
     bool isRune = false; //是否检测大符
-    int ThresholdValue = 180; //二值化阈值
+    int ThresholdValue = 170; //二值化阈值
     struct LightBar susBar;
     struct Armor Armor;
     cv::Mat Target_tvec;

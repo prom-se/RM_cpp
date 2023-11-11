@@ -258,7 +258,7 @@ bool Detector::detect(){
         rune.targets.color = target_color;
 
         rune.prepare(src);
-//        rune.infer_v5();
+        // rune.infer_v5();
         rune.infer_v8();
         rune.findTarget();
     }
@@ -340,14 +340,14 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
         if(Armor.nums && !isRune){
             printf("Armor FOUND !!\n");
             printf("Number:%s\n", Armor.number[Armor.best_index].c_str());
-            printf("Distance:%.2fcm\n", Target_dis);
         }
         else if(!rune.boxes.empty() && isRune){
             printf("Rune FOUND !!\n");
-            printf("Distance:%.2fcm\n", Target_dis);
-            printf("Send:%s\n", serMsg.c_str());
-            printf("Read:%s\n", readMsg.c_str());
+
         }
+        printf("Distance:%.2fcm\n", Target_dis);
+        printf("Send:%s\n", serMsg.c_str());
+        printf("Read:%s\n", readMsg.c_str());
         printf("Delay:%.1fms\n", delta_time / frames);
         printf("FPS:%.1fhz\n", fps);
         time_t now = time(nullptr);

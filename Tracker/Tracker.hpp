@@ -47,11 +47,11 @@ const std::array<double,9> cameraMatrix_1{1869.074197, 0,          664.6998242,
 
 const std::array<double,5> distCoeffs_1{-0.163116073466183,0.255155351,0,0,0};
 
-const std::array<double,9> cameraMatrix_2{1874.754536, 0,          680.7678244,
-                                        0,           1873.78477, 474.0771039,
+const std::array<double,9> cameraMatrix_2{1870.83826, 0,          654.97005,
+                                        0,           1869.7689, 528.98147,
                                         0,           0,          1};
 
-const std::array<double,5> distCoeffs_2{-0.173699114453634,0.276912283,0,0,0};
+const std::array<double,5> distCoeffs_2{-0.15885,0.205852,0,0,0};
 
 struct buffTracker{
     std::string color;

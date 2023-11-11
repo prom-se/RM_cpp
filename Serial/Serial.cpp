@@ -10,7 +10,7 @@ Serial::Serial(Detector &Detector, Tracker &Tracker) {
 
 bool Serial::open() {
     sp_return ret = sp_get_port_by_name("/dev/ttyACM0", &serPort);
-    if(ret != SP_OK)sp_get_port_by_name("/dev/ttyUSB0", &serPort);
+    if(ret != SP_OK)sp_get_port_by_name("/dev/ttyACM1", &serPort);
     ret = sp_open(serPort,SP_MODE_READ_WRITE);
     if(ret != SP_OK) return false;
     sp_set_baudrate(serPort,115200);
@@ -37,7 +37,7 @@ bool Serial::open() {
 //                pitch=serial_Detector->offset_pitch;
                 yaw=serial_Tracker->CarTracker.pre_yaw;
                 pitch=serial_Tracker->CarTracker.pre_pitch;
-//                if(abs(yaw)<1)yaw=0;if(abs(pitch)<1)pitch=0;
+                if(abs(yaw)>15)yaw=0;if(abs(pitch)>15)pitch=0;
                 msg = "A";msg += "Y";
                 if(yaw>0)msg += "+";
                 else msg += "-";
