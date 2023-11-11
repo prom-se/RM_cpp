@@ -19,7 +19,7 @@ int main(){
         //解算，跟踪目标
         Tracker_.track();
         //DeBug绘图并GUI显示
-        Detector_.debug(start_time, Detector_.roi_bin,true);
+        Detector_.debug(start_time, Detector_.roi_bin,false);
     }while(start_time != -1);
     return 0;
 }

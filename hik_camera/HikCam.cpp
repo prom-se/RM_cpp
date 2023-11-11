@@ -117,7 +117,7 @@ bool HikCam::SetResolution(int width, int height)
 
     if(nRet == MV_OK)
     {
-        printf("[Camera] setResolution succeed!\n", nRet);
+        printf("[Camera] setResolution succeed!\n");
         return true;
     }
     else
@@ -160,7 +160,6 @@ bool HikCam::SetFrameRate(float FrameRate)
 float HikCam::GetFrameRate()
 {
     nRet = MV_CC_GetFloatValue(handle, "ResultingFrameRate", pFrameRate);
-    if(nRet == MV_OK)
     return FrameRate.fCurValue;
 }
 
