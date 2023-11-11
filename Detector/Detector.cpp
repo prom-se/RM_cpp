@@ -345,13 +345,9 @@ void Detector::debug(long &start_time, cv::Mat &show_mat, bool show_flag=false){
         else if(!rune.boxes.empty() && isRune){
             printf("Rune FOUND !!\n");
             printf("Distance:%.2fcm\n", Target_dis);
+            printf("Send:%s\n", serMsg.c_str());
+            printf("Read:%s\n", readMsg.c_str());
         }
-        else{
-            printf("NOT FOUND!\n");
-            printf("Distance:NULL\n");
-        }
-        printf("Send:%s\n", serMsg.c_str());
-        printf("Read:%s\n", readMsg.c_str());
         printf("Delay:%.1fms\n", delta_time / frames);
         printf("FPS:%.1fhz\n", fps);
         time_t now = time(nullptr);
