@@ -95,9 +95,10 @@ bool Detector::findLightBar() {
         if ((double)size.area()<3) passed = false;
         if (abs(theta)>45) passed = false;
         cv::Scalar bgr;
-        bgr = cv::mean(src(cv::boundingRect(contour)));
+        cv::Rect rect1=cv::boundingRect(contour);
+        bgr = cv::mean(src(rect1));
         std::string lightColor;
-        lightColor = bgr.val[0]>bgr.val[1] ? "blue":"red";
+        lightColor = bgr.val[0]-bgr.val[2]>=0 ? "blue":"red";
         if (lightColor!=target_color) passed = false;
         if (passed){
             susBar.nums++;
