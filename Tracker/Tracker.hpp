@@ -35,9 +35,9 @@ const std::vector<cv::Point3d> rune_Point = {cv::Point3f(-150, 150, 0),
 //                                             cv::Point3f(26, -26, 0)};
 
 
-const std::array<double,9> cameraMatrix_old{1016.808471, 0,            645.1676831,
-                                            0,             1016.554536,  508.7050056,
-                                            0,             0,            1};
+const std::array<double,9> cameraMatrix_old{1016.808471,    0,            645.1676831,
+                                            0,              1016.554536,  508.7050056,
+                                            0,              0,            1};
 const std::array<double,5> distCoeffs_old{-0.392676910576646,0.203662234,0,0,-0.0395421280802953};
 
 
