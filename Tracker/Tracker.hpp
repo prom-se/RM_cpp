@@ -34,10 +34,10 @@ const std::vector<cv::Point3d> rune_Point = {cv::Point3f(-150, 150, 0),
 //                                             cv::Point3f(26, -26, 0)};
 
 
-const std::array<double,9> cameraMatrix_old{1572.4, 0,          655,
-                                          0,           1572.4, 503.4,
+const std::array<double,9> cameraMatrix_old{1016.808471, 0,          645.1676831,
+                                          0,           1016.554536, 508.7050056,
                                           0,           0,          1};
-const std::array<double,5> distCoeffs_old{-0.313818281448022,0.106042483,0,0,0};
+const std::array<double,5> distCoeffs_old{-0.392676910576646,0.203662234,0,0,-0.0395421280802953};
 
 
 const std::array<double,9> cameraMatrix_1{1869.074197, 0,          664.6998242,
@@ -47,11 +47,11 @@ const std::array<double,5> distCoeffs_1{-0.163116073466183,0.255155351,0,0,0};
 
 
 
-const std::array<double,9> cameraMatrix_2{1874.754536, 0,          680.7678244,
-                                        0,           1873.78477, 474.0771039,
+const std::array<double,9> cameraMatrix_2{1870.83826, 0,          654.97005,
+                                        0,           1869.7689, 528.98147,
                                         0,           0,          1};
 
-const std::array<double,5> distCoeffs_2{-0.173699114453634,0.276912283,0,0,0};
+const std::array<double,5> distCoeffs_2{-0.15885,0.205852,0,0,0};
 
 struct carTracker{
     double t_yaw = 0;

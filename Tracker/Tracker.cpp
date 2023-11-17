@@ -152,8 +152,8 @@ Tracker::Tracker(class Detector &Detector){
     Tracker::track_Detector = &Detector;
     ekf_filter.init();
     disFilter.Size=3;
-    cv::Mat(3, 3, CV_64FC1, const_cast<double *>(cameraMatrix_1.data())).copyTo(cameraMatrix);
-    cv::Mat(1, 5, CV_64FC1, const_cast<double *>(distCoeffs_1.data())).copyTo(distCoeffs);
+    cv::Mat(3, 3, CV_64FC1, const_cast<double *>(cameraMatrix_2.data())).copyTo(cameraMatrix);
+    cv::Mat(1, 5, CV_64FC1, const_cast<double *>(distCoeffs_2.data())).copyTo(distCoeffs);
 }
 
 
