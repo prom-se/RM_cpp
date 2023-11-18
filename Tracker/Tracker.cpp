@@ -66,7 +66,8 @@ bool Tracker::offset(){
 
 bool Tracker::track() {
     bool ret;
-    pnpSolve();
+    ret = pnpSolve();
+    if(!ret) return false;
     offset();
     track_Detector->offset_pitch += PitchFix.at(0);
     trackTarget();
@@ -223,6 +224,7 @@ void Tracker::car_reFind() {
     CarTracker.pre_yaw=CarTracker.pre_yaw>0?180-CarTracker.pre_yaw:-CarTracker.pre_yaw-180;
 
     CarTracker.pre_pitch = track_Detector->offset_pitch;
+    pre_yaw=CarTracker.pre_yaw;pre_pitch=CarTracker.pre_pitch;
     double fx = cameraMatrix.at<double>(0, 0);
     double fy = cameraMatrix.at<double>(1, 1);
     double cx = cameraMatrix.at<double>(0, 2);

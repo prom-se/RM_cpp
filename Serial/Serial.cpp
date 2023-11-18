@@ -40,15 +40,15 @@ bool Serial::open() {
             sp_blocking_write(serPort,data,4*6,0); 
             sp_blocking_write(serPort,tail,4,0);
         }
-        else {
+        else if(serial_Detector->found){
             double yaw,pitch,fYaw,fPitch;
             yawFilter.update(serial_Detector->yaw);
             pitchFilter.update(serial_Detector->offset_pitch);
             yawFilter.get_avg(fYaw);pitchFilter.get_avg(fPitch);
     //                yaw=serial_Detector->yaw;
     //                pitch=serial_Detector->offset_pitch;
-            yaw=serial_Tracker->CarTracker.pre_yaw;
-            pitch=serial_Tracker->CarTracker.pre_pitch;
+            yaw=serial_Tracker->pre_yaw;
+            pitch=serial_Tracker->pre_pitch;
             if(abs(yaw)>50)yaw=0;if(abs(pitch)>50)pitch=0;
             msg = "A";msg += "Y";
             if(yaw>0)msg += "+";

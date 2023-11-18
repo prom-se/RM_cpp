@@ -253,6 +253,7 @@ bool Detector::detect(){
         if(!ret) return false;
         ret = matchLightBar();
         if(!ret) return false;
+        found = Armor.nums?true:false;
     }
     else{
         rune.targets.color = target_color;
