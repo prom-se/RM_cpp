@@ -1,8 +1,8 @@
 #include "Serial.hpp"
 
 Serial::Serial(Detector &Detector, Tracker &Tracker) {
-    yawFilter.Size=10;
-    pitchFilter.Size=10;
+    yawFilter.Size=50;
+    pitchFilter.Size=50;
     serial_Detector = &Detector;
     serial_Tracker = &Tracker;
     sp_ret = open();
@@ -41,35 +41,28 @@ bool Serial::open() {
             sp_blocking_write(serPort,tail,4,0);
         }
         else {
-            if(serial_Detector->found){
-                double yaw,pitch,fYaw,fPitch;
-                yawFilter.update(serial_Detector->yaw);
-                pitchFilter.update(serial_Detector->offset_pitch);
-                yawFilter.get_avg(fYaw);pitchFilter.get_avg(fPitch);
-//                yaw=serial_Detector->yaw;
-//                pitch=serial_Detector->offset_pitch;
-                yaw=serial_Tracker->CarTracker.pre_yaw;
-                pitch=serial_Tracker->CarTracker.pre_pitch;
-                if(abs(yaw)>30)yaw=0;if(abs(pitch)>30)pitch=0;
-                msg = "A";msg += "Y";
-                if(yaw>0)msg += "+";
-                else msg += "-";
-                msg += cv::format("%06.2f",abs(yaw));
-                msg += "P";
-                if(pitch>0)msg += "+";
-                else msg += "-";
-                msg += cv::format("%06.2f",abs(pitch));
-                if(abs(fYaw) < 5 && abs(fPitch) < 5) msg += "F";
-                else msg += "N";
-                msg += "E";
-                sp_blocking_write(serPort,msg.c_str(),19,0);
-                serial_Detector->serMsg = msg;
-            }
-            else{
-                msg = "AY+000.00P+000.00NE";
-                sp_blocking_write(serPort,msg.c_str(),19,0);
-                serial_Detector->serMsg = msg;
-            }
+            double yaw,pitch,fYaw,fPitch;
+            yawFilter.update(serial_Detector->yaw);
+            pitchFilter.update(serial_Detector->offset_pitch);
+            yawFilter.get_avg(fYaw);pitchFilter.get_avg(fPitch);
+    //                yaw=serial_Detector->yaw;
+    //                pitch=serial_Detector->offset_pitch;
+            yaw=serial_Tracker->CarTracker.pre_yaw;
+            pitch=serial_Tracker->CarTracker.pre_pitch;
+            if(abs(yaw)>50)yaw=0;if(abs(pitch)>50)pitch=0;
+            msg = "A";msg += "Y";
+            if(yaw>0)msg += "+";
+            else msg += "-";
+            msg += cv::format("%06.2f",abs(yaw));
+            msg += "P";
+            if(pitch>0)msg += "+";
+            else msg += "-";
+            msg += cv::format("%06.2f",abs(pitch));
+            if(abs(fYaw) < 5 && abs(fPitch) < 5 && yaw!=0 && pitch!=0) msg += "F";
+            else msg += "N";
+            msg += "E";
+            sp_blocking_write(serPort,msg.c_str(),19,0);
+            serial_Detector->serMsg = msg;
         }
     }
 }

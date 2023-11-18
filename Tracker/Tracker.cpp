@@ -5,7 +5,11 @@ bool Tracker::pnpSolve(){
     cv::Mat tvec;
     cv::Mat rvec;
     if(!track_Detector->isRune){
-        if(track_Detector->Armor.nums==0) return false;
+        if(!track_Detector->Armor.nums) {
+            track_Detector->pitch=0;
+            track_Detector->yaw=0;
+            return false;
+        }
         const std::vector<cv::Point3d> *Armor_Point;
         Armor_Point = track_Detector->Armor.type[track_Detector->Armor.best_index] == 'b' ? &large_Armor:&small_Armor;
         cv::solvePnP(*Armor_Point, track_Detector->Armor.pix_position[track_Detector->Armor.best_index],
@@ -34,6 +38,9 @@ bool Tracker::pnpSolve(){
 
 
 bool Tracker::offset(){
+    if(!track_Detector->Armor.nums){
+        return false;
+    }
     int iteration = 20;
     double aim_y, real_y, theta, time;
     double x_distance, y_distance;
@@ -63,8 +70,7 @@ bool Tracker::offset(){
 
 bool Tracker::track() {
     bool ret;
-    ret = pnpSolve();
-    if(!ret) return false;
+    pnpSolve();
     offset();
     track_Detector->offset_pitch += PitchFix.at(0);
     trackTarget();
@@ -78,12 +84,17 @@ void Tracker::trackTarget() {
     }
     else{
         car_init();
-        double k=4;pre_k=k*2;
-        ekf_filter.dt(k);
-        ekf_filter.predict();
-        ekf_filter.update(CarTracker.pos);
-        ekf_filter.pre_time=pre_k*offset_time;
-        CarTracker.predict=ekf_filter.pre_position;
+        if(track_Detector->Armor.nums){
+            double k=4;pre_k=k*2;
+            ekf_filter.dt(k);
+            ekf_filter.predict();
+            ekf_filter.update(CarTracker.pos);
+            ekf_filter.pre_time=pre_k*offset_time;
+            CarTracker.predict=ekf_filter.pre_position;
+        }
+        else{
+            CarTracker.predict=Vector2d(ekf_filter.x(0),ekf_filter.x(1));
+        }
         car_reFind();
     }
 }
@@ -182,6 +193,10 @@ void Tracker::car_init(){
 #ifndef USE_MSG
     selfYaw=0;selfPitch=0;
 #endif
+    if(!track_Detector->Armor.nums){
+        track_Detector->yaw = CarTracker.pre_yaw;
+        track_Detector->pitch = CarTracker.pre_pitch;
+    }
     CarTracker.t_yaw = selfYaw-track_Detector->yaw;
     CarTracker.t_pitch = selfPitch<0?selfPitch+track_Detector->pitch+180:selfPitch+track_Detector->pitch-180;
     if(CarTracker.t_yaw>360) CarTracker.t_yaw-=360;
@@ -218,6 +233,7 @@ void Tracker::car_reFind() {
 
     if(CarTracker.pre_yaw> 180) CarTracker.pre_yaw-=360;
     if(CarTracker.pre_yaw<-180) CarTracker.pre_yaw+=360;
+    CarTracker.pre_yaw=CarTracker.pre_yaw>0?180-CarTracker.pre_yaw:-CarTracker.pre_yaw-180;
 
     CarTracker.pre_pitch = track_Detector->offset_pitch;
     double fx = cameraMatrix.at<double>(0, 0);

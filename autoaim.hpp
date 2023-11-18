@@ -11,7 +11,7 @@
 #include "Serial/Serial.hpp"
 
 //是否使用海康相机
-//#define USE_HIK
+#define USE_HIK
 
 Detector Detector_;
 Tracker Tracker_(Detector_);

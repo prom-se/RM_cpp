@@ -9,7 +9,7 @@
 #include "avgFilter.hpp"
 #include <ceres/ceres.h>
 
-#define USE_MSG //使用串口信息
+//#define USE_MSG //使用串口信息
 
 const std::array<double,3> xyzFix = {0,0,0}; // mm
 const std::array<double,1> PitchFix = {0};
