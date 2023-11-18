@@ -183,14 +183,14 @@ void Tracker::car_init(){
     selfYaw=0;selfPitch=0;
 #endif
     CarTracker.t_yaw = selfYaw-track_Detector->yaw;
-    CarTracker.t_pitch = selfPitch+track_Detector->pitch;
+    CarTracker.t_pitch = selfPitch<0?selfPitch+track_Detector->pitch+180:selfPitch+track_Detector->pitch-180;
     if(CarTracker.t_yaw>360) CarTracker.t_yaw-=360;
     if(CarTracker.t_yaw<0) CarTracker.t_yaw+=360;
-    CarTracker.dis = track_Detector->Target_dis;
+    CarTracker.dis = track_Detector->Target_dis*cos(CarTracker.t_pitch/180*CV_PI);
     CarTracker.pos(0)=CarTracker.dis*cos(CarTracker.t_yaw/180*CV_PI);
     CarTracker.pos(1)=CarTracker.dis*sin(CarTracker.t_yaw/180*CV_PI);
 
-        double delta_x,delta_y;
+    double delta_x,delta_y;
     delta_x = abs(CarTracker.pos(0)-CarTracker.last_x);
     delta_y = abs(CarTracker.pos(1)-CarTracker.last_y);
     if(delta_x > 10 || delta_y > 10){
@@ -226,13 +226,13 @@ void Tracker::car_reFind() {
     double cy = cameraMatrix.at<double>(1, 2);
     double X = dis * sin(CarTracker.pre_yaw/180*CV_PI);
     double Y = dis * sin(CarTracker.pre_pitch/180*CV_PI);
-    double org_X = CarTracker.dis * sin(track_Detector->yaw/180*CV_PI);
-    double org_Y = CarTracker.dis * sin(track_Detector->offset_pitch/180*CV_PI);
+    double org_X = track_Detector->Target_dis * sin(track_Detector->yaw/180*CV_PI);
+    double org_Y = track_Detector->Target_dis * sin(track_Detector->offset_pitch/180*CV_PI);
     // 使用相机内参将相对坐标转换为像素坐标
     double pixelX = (fx * X / dis) + cx;
     double pixelY = (fy * -Y / dis) + cy;
-    double pixel_orgX = (fx * org_X / CarTracker.dis) + cx;
-    double pixel_orgY = (fy * -org_Y / CarTracker.dis) + cy;
+    double pixel_orgX = (fx * org_X / track_Detector->Target_dis) + cx;
+    double pixel_orgY = (fy * -org_Y / track_Detector->Target_dis) + cy;
     target.x=(float)pixelX;target.y=(float)pixelY;
     org.x=(float)pixel_orgX;org.y=(float)pixel_orgY;
 }

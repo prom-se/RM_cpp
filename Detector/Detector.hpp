@@ -7,7 +7,6 @@
 #include <chrono>
 #include "../Rune/Rune.hpp"
 
-
 //灯条
 struct LightBar{
     int nums = 0;
@@ -37,6 +36,7 @@ class Detector {
 private:
     cv::VideoWriter writer;
 public:
+    bool found=false;
     long now_time = 0;
     double delta_time = 0;
     double fps = 0;

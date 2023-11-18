@@ -240,7 +240,7 @@ bool Detector::detect(){
     memset(&rune.classIds, 0, sizeof(rune.classIds));
     memset(&rune.confidences, 0, sizeof(rune.confidences));
     memset(&rune.targets, 0, sizeof(rune.targets));
-
+    found=false;
     src.copyTo(show);
     frames++;
     bool ret;
@@ -254,6 +254,7 @@ bool Detector::detect(){
         if(!ret) return false;
         ret = matchLightBar();
         if(!ret) return false;
+        if(Armor.nums)found=true;
     }
     else{
         rune.targets.color = target_color;

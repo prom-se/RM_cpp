@@ -1,8 +1,8 @@
 #include "Serial.hpp"
 
 Serial::Serial(Detector &Detector, Tracker &Tracker) {
-    yawFilter.Size=5;
-    pitchFilter.Size=5;
+    yawFilter.Size=10;
+    pitchFilter.Size=10;
     serial_Detector = &Detector;
     serial_Tracker = &Tracker;
     sp_ret = open();
@@ -41,7 +41,7 @@ bool Serial::open() {
             sp_blocking_write(serPort,tail,4,0);
         }
         else {
-            if(serial_Detector->Armor.nums!=0){
+            if(serial_Detector->found){
                 double yaw,pitch,fYaw,fPitch;
                 yawFilter.update(serial_Detector->yaw);
                 pitchFilter.update(serial_Detector->offset_pitch);
@@ -50,7 +50,7 @@ bool Serial::open() {
 //                pitch=serial_Detector->offset_pitch;
                 yaw=serial_Tracker->CarTracker.pre_yaw;
                 pitch=serial_Tracker->CarTracker.pre_pitch;
-                if(abs(yaw)>15)yaw=0;if(abs(pitch)>15)pitch=0;
+                if(abs(yaw)>30)yaw=0;if(abs(pitch)>30)pitch=0;
                 msg = "A";msg += "Y";
                 if(yaw>0)msg += "+";
                 else msg += "-";
@@ -89,7 +89,7 @@ bool Serial::open() {
                 selfPitch=std::stof(strbuffer.substr(10,7));
                 shootSpeed=std::stof(strbuffer.substr(18,5));
                 serial_Tracker->selfYaw=selfYaw;serial_Tracker->selfPitch=selfPitch;
-                serial_Tracker->speed=shootSpeed;
+                serial_Tracker->speed=shootSpeed!=0?shootSpeed:25.00;
                 serial_Detector->readMsg = 'A'+strbuffer;
             }
         }
