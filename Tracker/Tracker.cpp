@@ -78,10 +78,12 @@ void Tracker::trackTarget() {
     }
     else{
         car_init();
+        double k=4;pre_k=k*2;
+        ekf_filter.dt(k);
+        ekf_filter.predict();
         ekf_filter.update(CarTracker.pos);
-        pre_k = 1.5;
-        CarTracker.predict(0)=pre_k*offset_time*ekf_filter.x(2)+CarTracker.pos(0);
-        CarTracker.predict(1)=pre_k*offset_time*ekf_filter.x(3)+CarTracker.pos(1);
+        ekf_filter.pre_time=pre_k*offset_time;
+        CarTracker.predict=ekf_filter.pre_position;
         car_reFind();
     }
 }

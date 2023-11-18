@@ -10,7 +10,7 @@ Serial::Serial(Detector &Detector, Tracker &Tracker) {
 
 bool Serial::open() {
     sp_return ret = sp_get_port_by_name("/dev/ttyACM0", &serPort);
-    if(ret != SP_OK)sp_get_port_by_name("/dev/ttyACM1", &serPort);
+    if(ret != SP_OK)sp_get_port_by_name("/dev/ttyUSB0", &serPort);
     ret = sp_open(serPort,SP_MODE_READ_WRITE);
     if(ret != SP_OK) return false;
     sp_set_baudrate(serPort,115200);
@@ -22,10 +22,23 @@ bool Serial::open() {
 
 [[noreturn]] void Serial::send(){
     while (true){
+        bool vofa=false;
         if(!sp_ret) {
             msg = "NULL";
             serial_Detector->serMsg = msg;
             sp_ret = open();
+        }
+        else if(sp_ret && vofa && !serial_Detector->Target_rvec.empty()){
+            float data[6];
+            uint8_t tail[4]={0x00,0x00,0x80,0x7f};
+            data[0]=serial_Tracker->CarTracker.pos(0);
+            data[1]=serial_Tracker->CarTracker.predict(0);
+            data[2]=serial_Detector->Target_dis;
+            data[3]=serial_Detector->Target_rvec.at<float>(0,0);
+            data[4]=serial_Detector->Target_rvec.at<float>(1,0);
+            data[5]=serial_Detector->Target_rvec.at<float>(2,0);
+            sp_blocking_write(serPort,data,4*6,0); 
+            sp_blocking_write(serPort,tail,4,0);
         }
         else {
             if(serial_Detector->Armor.nums!=0){

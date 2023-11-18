@@ -21,7 +21,7 @@ long start_time = 0;
 
 
 //图像读取进程
-cv::VideoCapture cap("../image/guard2.avi");
+cv::VideoCapture cap("../image/guard1.avi");
 [[noreturn]] void CapThread(){
     while(true){
 #ifdef USE_HIK
