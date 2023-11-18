@@ -27,7 +27,7 @@ cv::VideoCapture cap("../image/armor.avi");
 #ifdef USE_HIK
         Hik.GetMat(Detector_.src);
 #else
-        cap.read(Detector_.src);
+        cap.read(Detector_.buff);
         cv::waitKey(15);
 #endif
     }

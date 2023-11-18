@@ -240,6 +240,7 @@ bool Detector::detect(){
     memset(&rune.classIds, 0, sizeof(rune.classIds));
     memset(&rune.confidences, 0, sizeof(rune.confidences));
     memset(&rune.targets, 0, sizeof(rune.targets));
+    buff.copyTo(src);
     src.copyTo(show);
     frames++;
     bool ret;

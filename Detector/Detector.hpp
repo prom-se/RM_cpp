@@ -42,6 +42,7 @@ public:
     double fps = 0;
     Detector()=default;
     Rune rune;
+    cv::Mat buff = cv::Mat(1024, 1280, CV_8UC3);
     cv::Mat src = cv::Mat(1024, 1280, CV_8UC3);
     cv::Mat show = cv::Mat(1024, 1280, CV_8UC3);
     cv::Mat roi = cv::Mat(640, 800, CV_8UC3);
