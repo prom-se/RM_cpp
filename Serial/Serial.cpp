@@ -42,8 +42,8 @@ bool Serial::open() {
         }
         else if(serial_Detector->found){
             double yaw,pitch,fYaw,fPitch;
-            yawFilter.update(serial_Detector->yaw);
-            pitchFilter.update(serial_Detector->offset_pitch);
+            yawFilter.update(serial_Tracker->pre_yaw);
+            pitchFilter.update(serial_Tracker->pre_pitch);
             yawFilter.get_avg(fYaw);pitchFilter.get_avg(fPitch);
     //                yaw=serial_Detector->yaw;
     //                pitch=serial_Detector->offset_pitch;
