@@ -64,6 +64,11 @@ bool Serial::open() {
             sp_blocking_write(serPort,msg.c_str(),19,0);
             serial_Detector->serMsg = msg;
         }
+        else{
+            msg="AP+000.00P+000.00NE";
+            sp_blocking_write(serPort,msg.c_str(),19,0);
+            serial_Detector->serMsg = msg;
+        }
     }
 }
 

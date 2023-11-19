@@ -5,7 +5,7 @@ bool Tracker::pnpSolve(){
     cv::Mat tvec;
     cv::Mat rvec;
     if(!track_Detector->isRune){
-        if(!track_Detector->Armor.nums) {
+        if(!track_Detector->found) {
             pre_yaw=0;pre_pitch=0;
             return false;
         }
