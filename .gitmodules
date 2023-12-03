@@ -1,0 +1,3 @@
+[submodule "visionSerial"]
+	path = visionSerial
+	url = https://github.com/prom-se/visionSerial.git
