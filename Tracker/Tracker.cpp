@@ -52,6 +52,7 @@ bool Tracker::offset(){
         y_distance = 1.4 * sin(BuffTracker.targetTheta/180*CV_PI);
     }
     aim_y = y_distance;
+    speed=rMsg.muzzleSpeed!=0?rMsg.muzzleSpeed:25.00;
     for(int i=0;i<iteration;i++){
         theta = atan2(aim_y,x_distance);
         time = (exp(air_k*x_distance)-1)/(air_k*speed*cos(theta));
@@ -188,6 +189,7 @@ void Tracker::car_init(){
 #ifndef USE_MSG
     selfYaw=0.1;selfPitch=0.1;
 #endif
+    selfYaw=rMsg.robotYaw;selfPitch=rMsg.robotPitch;
     CarTracker.t_yaw = selfYaw-track_Detector->yaw;
     CarTracker.t_pitch = selfPitch<0?selfPitch+track_Detector->pitch+180:selfPitch+track_Detector->pitch-180;
     if(CarTracker.t_yaw>360) CarTracker.t_yaw-=360;
@@ -228,6 +230,7 @@ void Tracker::car_reFind() {
     CarTracker.pre_yaw=CarTracker.pre_yaw<-90?-180-CarTracker.pre_yaw:CarTracker.pre_yaw;
     CarTracker.pre_pitch = track_Detector->offset_pitch;
     pre_yaw=CarTracker.pre_yaw;pre_pitch=CarTracker.pre_pitch;
+    vMsg.aimYaw=pre_yaw;vMsg.aimPitch=pre_pitch;
     double fx = cameraMatrix.at<double>(0, 0);
     double fy = cameraMatrix.at<double>(1, 1);
     double cx = cameraMatrix.at<double>(0, 2);

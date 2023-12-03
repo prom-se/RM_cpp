@@ -8,17 +8,16 @@
 #include "hik_camera/HikCam.hpp"
 #include "Detector/Detector.hpp"
 #include "Tracker/Tracker.hpp"
-#include "Serial/Serial.hpp"
-
-//是否使用海康相机
-//#define USE_HIK
+#include "visionSerial/include/serial.hpp"
 
 Detector Detector_;
 Tracker Tracker_(Detector_);
-Serial Serial_(Detector_, Tracker_);
 HikCam Hik;
+visionSerial Serial_("/dev/ttyACM0",115200);
 long start_time = 0;
 
+//是否使用海康相机
+//#define USE_HIK
 
 //图像读取进程
 cv::VideoCapture cap("../image/armor.avi");
@@ -50,5 +49,4 @@ bool CamInit(){
     Cam.detach();
     return true;
 };
-
 #endif
