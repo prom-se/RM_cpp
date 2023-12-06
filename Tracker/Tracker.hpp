@@ -71,6 +71,7 @@ private:
     Detector *track_Detector;
     class avgFilter disFilter;
 public:
+    double pre_yaw,pre_pitch;
     double Gravity = 9.78;
     double air_k = 0.0282;
     double speed = 20;

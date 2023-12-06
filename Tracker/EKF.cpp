@@ -16,8 +16,8 @@ void EKF::init() {
     H <<
     1, 0, 0, 0,
     0, 1, 0, 0;
-    Q = Matrix4d::Identity() * 1000;  // 过程噪声
-    R = Matrix2d::Identity() * 5;   // 测量噪声
+    Q = Matrix4d::Identity() * 1;  // 过程噪声
+    R = Matrix2d::Identity() * 0.5;   // 测量噪声
 }
 
 EKF::EKF() {
@@ -39,13 +39,15 @@ void EKF::update(const Vector2d& measurement) {
     P = (MatrixXd::Identity(4, 4) - K * H) * P;
 }
 
+void EKF::dt(double k) {
+    now_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    delta_s = (double)(now_time-last_time)/pow(10,6);last_time = now_time;  
+    A(0,2)=k*delta_s;A(1,3)=k*delta_s;  
+}
+
 [[noreturn]] void EKF::track_thread(){
     init();
     while(true){
-        now_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-        delta_s = (double)(now_time-last_time)/pow(10,6);last_time = now_time;
-        A(0,2)=delta_s;A(1,3)=delta_s;
-        predict();
         pre_position={x(0)+pre_time*x(2),x(1)+pre_time*x(3)};
     }
 }

@@ -26,6 +26,7 @@ public:
     void init();
     void predict();
     void update(const Vector2d& measurement);
+    void dt(double k);
     [[noreturn]] void track_thread();
 
     EKF();

@@ -35,6 +35,7 @@ class Detector {
 private:
     cv::VideoWriter writer;
 public:
+    bool found=false;
     long now_time = 0;
     double delta_time = 0;
     double fps = 0;

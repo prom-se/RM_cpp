@@ -244,9 +244,10 @@ bool Detector::detect(){
     dst.copyTo(gray);
     cv::threshold(dst, dst, ThresholdValue, 255, 0);
     ret = findLightBar();
-    if(!ret) return false;
+    if(!ret) {found = false;return false;}
     ret = matchLightBar();
-    if(!ret) return false;
+    if(!ret) {found = false;return false;}
+    found = Armor.nums?true:false;
     return true;
 }
 

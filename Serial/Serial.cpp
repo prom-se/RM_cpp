@@ -22,41 +22,52 @@ bool Serial::open() {
 
 [[noreturn]] void Serial::send(){
     while (true){
+        bool vofa=false;
         if(!sp_ret) {
             msg = "NULL";
             serial_Detector->serMsg = msg;
             sp_ret = open();
         }
-        else {
-            if(serial_Detector->Armor.nums!=0){
-                double yaw,pitch,fYaw,fPitch;
-                yawFilter.update(serial_Detector->yaw);
-                pitchFilter.update(serial_Detector->offset_pitch);
-                yawFilter.get_avg(fYaw);pitchFilter.get_avg(fPitch);
-                // yaw=serial_Detector->yaw;
-                // pitch=serial_Detector->offset_pitch;
-                yaw=serial_Tracker->CarTracker.pre_yaw;
-                pitch=serial_Tracker->CarTracker.pre_pitch;
-                if(abs(yaw)>15)yaw=0;if(abs(pitch)>15)pitch=0;
-                msg = "A";msg += "Y";
-                if(yaw>0)msg += "+";
-                else msg += "-";
-                msg += cv::format("%06.2f",abs(yaw));
-                msg += "P";
-                if(pitch>0)msg += "+";
-                else msg += "-";
-                msg += cv::format("%06.2f",abs(pitch));
-                if(abs(fYaw) < 5 && abs(fPitch) < 5) msg += "F";
-                else msg += "N";
-                msg += "E";
-                sp_blocking_write(serPort,msg.c_str(),19,0);
-                serial_Detector->serMsg = msg;
-            }
-            else{
-                msg = "AY+000.00P+000.00NE";
-                sp_blocking_write(serPort,msg.c_str(),19,0);
-                serial_Detector->serMsg = msg;
-            }
+        else if(sp_ret && vofa && !serial_Detector->Target_rvec.empty()){
+            float data[6];
+            uint8_t tail[4]={0x00,0x00,0x80,0x7f};
+            data[0]=serial_Tracker->CarTracker.pos(0);
+            data[1]=serial_Tracker->CarTracker.predict(0);
+            data[2]=serial_Detector->Target_dis;
+            data[3]=serial_Detector->Target_rvec.at<float>(0,0);
+            data[4]=serial_Detector->Target_rvec.at<float>(1,0);
+            data[5]=serial_Detector->Target_rvec.at<float>(2,0);
+            sp_blocking_write(serPort,data,4*6,0); 
+            sp_blocking_write(serPort,tail,4,0);
+        }
+        else if(serial_Detector->found){
+            double yaw,pitch,fYaw,fPitch;
+            yawFilter.update(serial_Tracker->pre_yaw);
+            pitchFilter.update(serial_Tracker->pre_pitch);
+            yawFilter.get_avg(fYaw);pitchFilter.get_avg(fPitch);
+    //                yaw=serial_Detector->yaw;
+    //                pitch=serial_Detector->offset_pitch;
+            yaw=serial_Tracker->pre_yaw;
+            pitch=serial_Tracker->pre_pitch;
+            if(abs(yaw)>50)yaw=0;if(abs(pitch)>50)pitch=0;
+            msg = "A";msg += "Y";
+            if(yaw>0)msg += "+";
+            else msg += "-";
+            msg += cv::format("%06.2f",abs(yaw));
+            msg += "P";
+            if(pitch>0)msg += "+";
+            else msg += "-";
+            msg += cv::format("%06.2f",abs(pitch));
+            if(abs(fYaw) < 5 && abs(fPitch) < 5 && yaw!=0 && pitch!=0) msg += "F";
+            else msg += "N";
+            msg += "E";
+            sp_blocking_write(serPort,msg.c_str(),19,0);
+            serial_Detector->serMsg = msg;
+        }
+        else{
+            msg="AP+000.00P+000.00NE";
+            sp_blocking_write(serPort,msg.c_str(),19,0);
+            serial_Detector->serMsg = msg;
         }
     }
 }
