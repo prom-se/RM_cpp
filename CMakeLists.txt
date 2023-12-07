@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.8)
 set(CMAKE_CXX_STANDARD 11)
 
 project(RM_cpp)
 
 # 寻找库并添加头文件路径
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 4.8.0 REQUIRED)
 
 include_directories(${OpenCV_DIRCTORIES})
 include_directories("/opt/MVS/include/")

@@ -1,4 +1,5 @@
 #include "Serial.hpp"
+#include <unistd.h>
 
 Serial::Serial(Detector &Detector, Tracker &Tracker) {
     yawFilter.Size=5;
@@ -11,7 +12,7 @@ Serial::Serial(Detector &Detector, Tracker &Tracker) {
 bool Serial::open() {
     sp_return ret = sp_get_port_by_name("/dev/ttyACM0", &serPort);
     if(ret != SP_OK)sp_get_port_by_name("/dev/ttyUSB0", &serPort);
-    ret = sp_open(serPort,SP_MODE_READ_WRITE);
+    ret = sp_open(serPort,SP_MODE_WRITE);
     if(ret != SP_OK) return false;
     sp_set_baudrate(serPort,115200);
     sp_set_bits(serPort, 8);
@@ -29,6 +30,7 @@ bool Serial::open() {
             sp_ret = open();
         }
         else if(sp_ret && vofa && !serial_Detector->Target_rvec.empty()){
+            sp_open(serPort,SP_MODE_WRITE);
             float data[6];
             uint8_t tail[4]={0x00,0x00,0x80,0x7f};
             data[0]=serial_Tracker->CarTracker.pos(0);
@@ -65,6 +67,7 @@ bool Serial::open() {
             serial_Detector->serMsg = msg;
         }
         else{
+            usleep(2000);
             msg="AP+000.00P+000.00NE";
             sp_blocking_write(serPort,msg.c_str(),19,0);
             serial_Detector->serMsg = msg;
@@ -74,6 +77,7 @@ bool Serial::open() {
 
 [[noreturn]] bool Serial::receive() {
     while(true){
+        sp_open(serPort,SP_MODE_READ);
         char sign;
 //        sign='A';//DEBUG
         sp_nonblocking_read(serPort,&sign,1);
