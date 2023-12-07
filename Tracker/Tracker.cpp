@@ -222,10 +222,8 @@ void Tracker::car_reFind() {
     CarTracker.pre_yaw = -(CarTracker.pre_yaw-selfYaw);
 
     if(CarTracker.pre_yaw> 360) CarTracker.pre_yaw-=360;
-    if(CarTracker.pre_yaw<-360) CarTracker.pre_yaw+=360;
+    if(CarTracker.pre_yaw< 0) CarTracker.pre_yaw+=360;
 
-    if(CarTracker.pre_yaw> 180) CarTracker.pre_yaw-=360;
-    if(CarTracker.pre_yaw<-180) CarTracker.pre_yaw+=360;
     CarTracker.pre_yaw=CarTracker.pre_yaw>90?180-CarTracker.pre_yaw:CarTracker.pre_yaw;
     CarTracker.pre_yaw=CarTracker.pre_yaw<-90?-180-CarTracker.pre_yaw:CarTracker.pre_yaw;
     CarTracker.pre_pitch = track_Detector->offset_pitch;
