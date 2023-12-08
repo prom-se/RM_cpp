@@ -17,6 +17,7 @@ int main(){
         Detector_.detect();
         //解算，跟踪目标
         Tracker_.track();
+        Tracker_.vMsg.head=0xa5;
         Serial_.visionUpdate(&Tracker_.vMsg);
         Serial_.robotUpdate(&Tracker_.rMsg);
         if(!Detector_.found){Tracker_.vMsg.aimPitch=0;Tracker_.vMsg.aimYaw=0;}
