@@ -12,7 +12,7 @@
 
 # =============================================================================
 # Project: RM_cpp
-# Configurations: Debug
+# Configurations: 
 # =============================================================================
 
 #############################################
@@ -20,11 +20,6 @@
 
 ninja_required_version = 1.5
 
-
-#############################################
-# Set configuration variable for custom commands.
-
-CONFIGURATION = Debug
 # =============================================================================
 # Include auxiliary files.
 
@@ -49,47 +44,47 @@ cmake_ninja_workdir = /home/promise/RM_cpp/build/
 
 build cmake_object_order_depends_target_autoaim: phony || CMakeFiles/autoaim.dir
 
-build CMakeFiles/autoaim.dir/autoaim.cpp.o: CXX_COMPILER__autoaim_unscanned_Debug /home/promise/RM_cpp/autoaim.cpp || cmake_object_order_depends_target_autoaim
+build CMakeFiles/autoaim.dir/autoaim.cpp.o: CXX_COMPILER__autoaim_unscanned_ /home/promise/RM_cpp/autoaim.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/autoaim.cpp.o.d
-  FLAGS = -g -std=gnu++11
+  FLAGS = -std=gnu++11
   INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir
 
-build CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o: CXX_COMPILER__autoaim_unscanned_Debug /home/promise/RM_cpp/hik_camera/HikCam.cpp || cmake_object_order_depends_target_autoaim
+build CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o: CXX_COMPILER__autoaim_unscanned_ /home/promise/RM_cpp/hik_camera/HikCam.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o.d
-  FLAGS = -g -std=gnu++11
+  FLAGS = -std=gnu++11
   INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/hik_camera
 
-build CMakeFiles/autoaim.dir/Detector/Detector.cpp.o: CXX_COMPILER__autoaim_unscanned_Debug /home/promise/RM_cpp/Detector/Detector.cpp || cmake_object_order_depends_target_autoaim
+build CMakeFiles/autoaim.dir/Detector/Detector.cpp.o: CXX_COMPILER__autoaim_unscanned_ /home/promise/RM_cpp/Detector/Detector.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/Detector/Detector.cpp.o.d
-  FLAGS = -g -std=gnu++11
+  FLAGS = -std=gnu++11
   INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/Detector
 
-build CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o: CXX_COMPILER__autoaim_unscanned_Debug /home/promise/RM_cpp/Tracker/Tracker.cpp || cmake_object_order_depends_target_autoaim
+build CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o: CXX_COMPILER__autoaim_unscanned_ /home/promise/RM_cpp/Tracker/Tracker.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o.d
-  FLAGS = -g -std=gnu++11
+  FLAGS = -std=gnu++11
   INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/Tracker
 
-build CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o: CXX_COMPILER__autoaim_unscanned_Debug /home/promise/RM_cpp/Tracker/EKF.cpp || cmake_object_order_depends_target_autoaim
+build CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o: CXX_COMPILER__autoaim_unscanned_ /home/promise/RM_cpp/Tracker/EKF.cpp || cmake_object_order_depends_target_autoaim
   DEP_FILE = CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o.d
-  FLAGS = -g -std=gnu++11
+  FLAGS = -std=gnu++11
   INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
   OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/Tracker
 
-build CMakeFiles/autoaim.dir/Serial/Serial.cpp.o: CXX_COMPILER__autoaim_unscanned_Debug /home/promise/RM_cpp/Serial/Serial.cpp || cmake_object_order_depends_target_autoaim
-  DEP_FILE = CMakeFiles/autoaim.dir/Serial/Serial.cpp.o.d
-  FLAGS = -g -std=gnu++11
+build CMakeFiles/autoaim.dir/visionSerial/src/serial.cpp.o: CXX_COMPILER__autoaim_unscanned_ /home/promise/RM_cpp/visionSerial/src/serial.cpp || cmake_object_order_depends_target_autoaim
+  DEP_FILE = CMakeFiles/autoaim.dir/visionSerial/src/serial.cpp.o.d
+  FLAGS = -std=gnu++11
   INCLUDES = -I/opt/MVS/include -I/usr/include/eigen3 -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/autoaim.dir
-  OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/Serial
+  OBJECT_FILE_DIR = CMakeFiles/autoaim.dir/visionSerial/src
 
 
 # =============================================================================
@@ -99,9 +94,8 @@ build CMakeFiles/autoaim.dir/Serial/Serial.cpp.o: CXX_COMPILER__autoaim_unscanne
 #############################################
 # Link the executable autoaim
 
-build autoaim: CXX_EXECUTABLE_LINKER__autoaim_Debug CMakeFiles/autoaim.dir/autoaim.cpp.o CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o CMakeFiles/autoaim.dir/Detector/Detector.cpp.o CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o CMakeFiles/autoaim.dir/Serial/Serial.cpp.o | /usr/local/lib/libopencv_gapi.so.4.8.0 /usr/local/lib/libopencv_highgui.so.4.8.0 /usr/local/lib/libopencv_ml.so.4.8.0 /usr/local/lib/libopencv_objdetect.so.4.8.0 /usr/local/lib/libopencv_photo.so.4.8.0 /usr/local/lib/libopencv_stitching.so.4.8.0 /usr/local/lib/libopencv_video.so.4.8.0 /usr/local/lib/libopencv_videoio.so.4.8.0 /opt/MVS/lib/64/libMvCameraControl.so /usr/local/lib/libopencv_imgcodecs.so.4.8.0 /usr/local/lib/libopencv_dnn.so.4.8.0 /usr/local/lib/libopencv_calib3d.so.4.8.0 /usr/local/lib/libopencv_features2d.so.4.8.0 /usr/local/lib/libopencv_flann.so.4.8.0 /usr/local/lib/libopencv_imgproc.so.4.8.0 /usr/local/lib/libopencv_core.so.4.8.0
-  FLAGS = -g
-  LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib:/opt/MVS/lib/64  /usr/local/lib/libopencv_gapi.so.4.8.0  /usr/local/lib/libopencv_highgui.so.4.8.0  /usr/local/lib/libopencv_ml.so.4.8.0  /usr/local/lib/libopencv_objdetect.so.4.8.0  /usr/local/lib/libopencv_photo.so.4.8.0  /usr/local/lib/libopencv_stitching.so.4.8.0  /usr/local/lib/libopencv_video.so.4.8.0  /usr/local/lib/libopencv_videoio.so.4.8.0  -lserialport  -pthread  /opt/MVS/lib/64/libMvCameraControl.so  /usr/local/lib/libopencv_imgcodecs.so.4.8.0  /usr/local/lib/libopencv_dnn.so.4.8.0  /usr/local/lib/libopencv_calib3d.so.4.8.0  /usr/local/lib/libopencv_features2d.so.4.8.0  /usr/local/lib/libopencv_flann.so.4.8.0  /usr/local/lib/libopencv_imgproc.so.4.8.0  /usr/local/lib/libopencv_core.so.4.8.0
+build autoaim: CXX_EXECUTABLE_LINKER__autoaim_ CMakeFiles/autoaim.dir/autoaim.cpp.o CMakeFiles/autoaim.dir/hik_camera/HikCam.cpp.o CMakeFiles/autoaim.dir/Detector/Detector.cpp.o CMakeFiles/autoaim.dir/Tracker/Tracker.cpp.o CMakeFiles/autoaim.dir/Tracker/EKF.cpp.o CMakeFiles/autoaim.dir/visionSerial/src/serial.cpp.o | /usr/local/lib/libopencv_gapi.so.4.8.0 /usr/local/lib/libopencv_highgui.so.4.8.0 /usr/local/lib/libopencv_ml.so.4.8.0 /usr/local/lib/libopencv_objdetect.so.4.8.0 /usr/local/lib/libopencv_photo.so.4.8.0 /usr/local/lib/libopencv_stitching.so.4.8.0 /usr/local/lib/libopencv_video.so.4.8.0 /usr/local/lib/libopencv_videoio.so.4.8.0 /usr/local/lib/libcserialport.so /home/promise/ros_rm/install/hik_camera/lib/libMvCameraControl.so /usr/local/lib/libopencv_imgcodecs.so.4.8.0 /usr/local/lib/libopencv_dnn.so.4.8.0 /usr/local/lib/libopencv_calib3d.so.4.8.0 /usr/local/lib/libopencv_features2d.so.4.8.0 /usr/local/lib/libopencv_flann.so.4.8.0 /usr/local/lib/libopencv_imgproc.so.4.8.0 /usr/local/lib/libopencv_core.so.4.8.0
+  LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib:/home/promise/ros_rm/install/hik_camera/lib  /usr/local/lib/libopencv_gapi.so.4.8.0  /usr/local/lib/libopencv_highgui.so.4.8.0  /usr/local/lib/libopencv_ml.so.4.8.0  /usr/local/lib/libopencv_objdetect.so.4.8.0  /usr/local/lib/libopencv_photo.so.4.8.0  /usr/local/lib/libopencv_stitching.so.4.8.0  /usr/local/lib/libopencv_video.so.4.8.0  /usr/local/lib/libopencv_videoio.so.4.8.0  /usr/local/lib/libcserialport.so  -pthread  /home/promise/ros_rm/install/hik_camera/lib/libMvCameraControl.so  /usr/local/lib/libopencv_imgcodecs.so.4.8.0  /usr/local/lib/libopencv_dnn.so.4.8.0  /usr/local/lib/libopencv_calib3d.so.4.8.0  /usr/local/lib/libopencv_features2d.so.4.8.0  /usr/local/lib/libopencv_flann.so.4.8.0  /usr/local/lib/libopencv_imgproc.so.4.8.0  /usr/local/lib/libopencv_core.so.4.8.0
   OBJECT_DIR = CMakeFiles/autoaim.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -151,14 +145,14 @@ build all: phony autoaim
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/promise/RM_cpp/CMakeLists.txt /usr/local/lib/cmake/opencv4/OpenCVConfig-version.cmake /usr/local/lib/cmake/opencv4/OpenCVConfig.cmake /usr/local/lib/cmake/opencv4/OpenCVModules-release.cmake /usr/local/lib/cmake/opencv4/OpenCVModules.cmake CMakeCache.txt CMakeFiles/3.27.2/CMakeCCompiler.cmake CMakeFiles/3.27.2/CMakeCXXCompiler.cmake CMakeFiles/3.27.2/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/promise/RM_cpp/CMakeLists.txt /usr/local/lib/cmake/CSerialPort/cserialport-config.cmake /usr/local/lib/cmake/opencv4/OpenCVConfig-version.cmake /usr/local/lib/cmake/opencv4/OpenCVConfig.cmake /usr/local/lib/cmake/opencv4/OpenCVModules-release.cmake /usr/local/lib/cmake/opencv4/OpenCVModules.cmake CMakeCache.txt CMakeFiles/3.27.2/CMakeCCompiler.cmake CMakeFiles/3.27.2/CMakeCXXCompiler.cmake CMakeFiles/3.27.2/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/promise/RM_cpp/CMakeLists.txt /usr/local/lib/cmake/opencv4/OpenCVConfig-version.cmake /usr/local/lib/cmake/opencv4/OpenCVConfig.cmake /usr/local/lib/cmake/opencv4/OpenCVModules-release.cmake /usr/local/lib/cmake/opencv4/OpenCVModules.cmake CMakeCache.txt CMakeFiles/3.27.2/CMakeCCompiler.cmake CMakeFiles/3.27.2/CMakeCXXCompiler.cmake CMakeFiles/3.27.2/CMakeSystem.cmake: phony
+build /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/Linux.cmake /home/promise/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/promise/RM_cpp/CMakeLists.txt /usr/local/lib/cmake/CSerialPort/cserialport-config.cmake /usr/local/lib/cmake/opencv4/OpenCVConfig-version.cmake /usr/local/lib/cmake/opencv4/OpenCVConfig.cmake /usr/local/lib/cmake/opencv4/OpenCVModules-release.cmake /usr/local/lib/cmake/opencv4/OpenCVModules.cmake CMakeCache.txt CMakeFiles/3.27.2/CMakeCCompiler.cmake CMakeFiles/3.27.2/CMakeCXXCompiler.cmake CMakeFiles/3.27.2/CMakeSystem.cmake: phony
 
 
 #############################################
