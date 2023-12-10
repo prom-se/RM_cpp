@@ -14,7 +14,6 @@
 
 Detector Detector_;
 Tracker Tracker_(Detector_);
-visionSerial Serial_("/dev/ttyACM0",115200);
 HikCam Hik;
 long start_time = 0;
 

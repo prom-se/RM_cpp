@@ -15,8 +15,7 @@ add_executable(autoaim autoaim.cpp
                 hik_camera/HikCam.cpp hik_camera/HikCam.hpp
                 Detector/Detector.cpp Detector/Detector.hpp
                 Tracker/Tracker.cpp Tracker/Tracker.hpp
-                Tracker/EKF.cpp Tracker/EKF.hpp Tracker/avgFilter.hpp
-                visionSerial/src/serial.cpp)
+                Tracker/EKF.cpp Tracker/EKF.hpp Tracker/avgFilter.hpp)
 
 target_link_libraries(autoaim ${OpenCV_LIBS} ${CERES_LIBRARIES} ${CSerialPort_LIBRARY} -pthread)
 # 包含海康相机动态链接库
