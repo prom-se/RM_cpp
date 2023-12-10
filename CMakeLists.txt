@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.5)
 set(CMAKE_CXX_STANDARD 17)
 
 project(RM_cpp)
@@ -23,8 +23,7 @@ add_executable(autoaim autoaim.cpp
                 Tracker/Tracker.cpp Tracker/Tracker.hpp
                 Tracker/EKF.cpp Tracker/EKF.hpp Tracker/avgFilter.hpp
                 Serial/Serial.cpp Serial/Serial.hpp
-                Rune/Rune.cpp Rune/Rune.hpp
-                visionSerial/src/serial.cpp)
+                Rune/Rune.cpp Rune/Rune.hpp)
 target_link_libraries(autoaim ${OpenCV_LIBS} ${InferenceEngine_LIBRARIES} ${CSerialPort_LIBRARY} -pthread)
 target_link_libraries(autoaim ${CERES_LIBRARIES} -lserialport)
 # 包含海康相机动态链接库

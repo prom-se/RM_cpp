@@ -13,7 +13,6 @@
 Detector Detector_;
 Tracker Tracker_(Detector_);
 HikCam Hik;
-visionSerial Serial_("/dev/ttyACM0",115200);
 long start_time = 0;
 
 //是否使用海康相机
