@@ -11,8 +11,8 @@
 #include "../visionSerial/include/serial.hpp"
 //#define USE_MSG //使用串口信息
 
-const std::array<double,3> xyzFix = {0,0,0}; // mm
-const std::array<double,1> PitchFix = {0};
+const std::array<double,3> xyzFix = {0,-40,0}; // mm
+const std::array<double,1> PitchFix = {1};
 
 const std::vector<cv::Point3d> small_Armor = {cv::Point3f(-67.5, 27.5, 0),
                                               cv::Point3f(-67.5, -27.5, 0),
@@ -101,8 +101,8 @@ private:
     class avgFilter disFilter;
 public:
     double pre_yaw,pre_pitch;
-    double Gravity = 9.78;
-    double air_k = 0.0282;
+    double Gravity = 9.8;
+    double air_k = 0.033;
     double speed = 20;
     double pre_k=10;
     double offset_time{};
