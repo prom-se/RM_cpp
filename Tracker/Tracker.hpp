@@ -9,7 +9,7 @@
 #include "avgFilter.hpp"
 #include <ceres/ceres.h>
 #include "../visionSerial/include/serial.hpp"
-//#define USE_MSG //使用串口信息
+#define USE_MSG //使用串口信息
 
 const std::array<double,3> xyzFix = {0,-40,0}; // mm
 const std::array<double,1> PitchFix = {1};
@@ -111,8 +111,8 @@ public:
     carTracker CarTracker;
     cv::Point2f target,org;
     EKF ekf_filter;
-    visionMsg vMsg;
-    robotMsg rMsg;
+    visionMsg* vMsg=new visionMsg;
+    robotMsg* rMsg=new robotMsg;
     //追踪
     bool track();
 

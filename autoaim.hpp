@@ -36,7 +36,7 @@ bool CamInit(){
 #ifdef USE_HIK
     if(Hik.StartDevice(0) != 0) return false;//开启相机
     Hik.SetResolution(1280, 1024);//设置分辨率
-    Hik.SetPixelFormat(17301514);//设置像素格式PixelType_Gvsp_BayerGR8
+    Hik.SetPixelFormat(17301512);//设置像素格式PixelType_Gvsp_BayerGR8
     Hik.SetExposureTime(3000);//设置曝光时间
     Hik.SetGAIN(10.0);
     Hik.SetFrameRate(120);//设置帧率上限

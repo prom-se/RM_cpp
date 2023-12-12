@@ -11,16 +11,16 @@ int main(){
     //主循环
     while(start_time != -1){
         //检测装甲板
-        Detector_.target_color=!Tracker_.rMsg.foeColor?"blue":"red";
+        Serial_.robotUpdate(*Tracker_.rMsg);
+        Detector_.target_color=!Tracker_.rMsg->foeColor?"blue":"red";
         Detector_.detect();
         //解算，跟踪目标
         Tracker_.track();
-        Serial_.visionUpdate(Tracker_.vMsg);
-        Serial_.robotUpdate(Tracker_.rMsg);
-        if(!Detector_.found){Tracker_.vMsg.aimPitch=0;Tracker_.vMsg.aimYaw=0;}
+        Serial_.visionUpdate(*Tracker_.vMsg);
+        if(!Detector_.found){Tracker_.vMsg->aimPitch=0;Tracker_.vMsg->aimYaw=0;}
         if(Serial_.isOk){
-            Detector_.serMsg=cv::format("Y:%05.2f/P:%05.2f",Tracker_.vMsg.aimYaw,Tracker_.vMsg.aimPitch);
-            Detector_.readMsg=cv::format("SelfY:%05.2f/SelfP:%05.2f",Tracker_.rMsg.robotYaw,Tracker_.rMsg.robotPitch);
+            Detector_.serMsg=cv::format("Y:%05.2f/P:%05.2f",Tracker_.vMsg->aimYaw,Tracker_.vMsg->aimPitch);
+            Detector_.readMsg=cv::format("SelfY:%05.2f/SelfP:%05.2f",Tracker_.rMsg->robotYaw,Tracker_.rMsg->robotPitch);
         }
         else{
             Detector_.serMsg="ERROR";
