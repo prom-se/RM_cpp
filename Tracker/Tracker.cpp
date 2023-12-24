@@ -135,6 +135,8 @@ void Tracker::buff_init(){
     double cy = cameraMatrix.at<double>(1, 2);
     track_Detector->yaw = atan((BuffTracker.Target_position.x - cx) / fx) * 180/CV_PI;
     track_Detector->offset_pitch = atan((cy - BuffTracker.Target_position.y) / fy) * 180/CV_PI +track_Detector->offset_pitch-track_Detector->pitch;
+    vMsg->aimYaw=track_Detector->yaw;
+    vMsg->aimPitch=track_Detector->offset_pitch;
 }
 
 void Tracker::Big_buff_track() {

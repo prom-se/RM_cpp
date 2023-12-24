@@ -13,6 +13,8 @@ int main(){
         //检测装甲板
         Serial_.robotUpdate(*Tracker_.rMsg);
         Detector_.target_color=!Tracker_.rMsg->foeColor?"blue":"red";
+        Detector_.isRune=Tracker_.rMsg->mode!=0?true:false;
+        Tracker_.BuffTracker.isSmall=Tracker_.rMsg->mode==1?true:false;
         Detector_.detect();
         //解算，跟踪目标
         Tracker_.track();
