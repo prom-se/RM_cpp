@@ -85,7 +85,7 @@ void Tracker::trackTarget() {
     }
     else{
         car_init();
-        double k=4;pre_k=k*2;
+        double k=1;pre_k=k*1;
         ekf_filter.dt(k);
         ekf_filter.predict();
         ekf_filter.update(CarTracker.pos);

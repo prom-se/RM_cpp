@@ -7,7 +7,7 @@ void EKF::init() {
     A.resize(4,4);
     // 初始化状态、协方差和模型参数
     x << 0, 0, 0, 0;  // 初始状态 [x位置, y位置, x速度, y速度]
-    P = Matrix4d::Identity() * 10;  // 初始协方差矩阵
+    P = Matrix4d::Identity() * 1;  // 初始协方差矩阵
     A <<
     1, 0, delta_s, 0,
     0, 1, 0, delta_s,
