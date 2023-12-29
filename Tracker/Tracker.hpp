@@ -105,7 +105,8 @@ public:
     double air_k = 0.033;
     double speed = 20;
     double pre_k=10;
-    double offset_time{};
+    double offset_time{0.5};
+    cv::Point2d offsetPt{};
     explicit Tracker(class Detector &Detector);
     buffTracker BuffTracker;
     carTracker CarTracker;

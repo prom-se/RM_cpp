@@ -37,7 +37,7 @@ bool Tracker::pnpSolve(){
 
 
 bool Tracker::offset(){
-    if(!track_Detector->Armor.nums){
+    if(!track_Detector->Armor.nums && track_Detector->rune.targets.index_Target == -1){
         return false;
     }
     int iteration = 20;
@@ -52,7 +52,7 @@ bool Tracker::offset(){
         y_distance = 1.4 * sin(BuffTracker.targetTheta/180*CV_PI);
     }
     aim_y = y_distance;
-    speed=rMsg->muzzleSpeed!=0?rMsg->muzzleSpeed:25.00;
+    speed=rMsg->muzzleSpeed>5?rMsg->muzzleSpeed:25.00;
     for(int i=0;i<iteration;i++){
         theta = atan2(aim_y,x_distance);
         time = (exp(air_k*x_distance)-1)/(air_k*speed*cos(theta));
@@ -137,6 +137,13 @@ void Tracker::buff_init(){
     track_Detector->offset_pitch = atan((cy - BuffTracker.Target_position.y) / fy) * 180/CV_PI +track_Detector->offset_pitch-track_Detector->pitch;
     vMsg->aimYaw=track_Detector->yaw;
     vMsg->aimPitch=track_Detector->offset_pitch;
+
+    // 使用相机内参将相对坐标转换为像素坐标
+    double Y = track_Detector->Target_dis * sin(track_Detector->offset_pitch/180*CV_PI);
+    double pixelY = (fy * -Y / track_Detector->Target_dis) + cy;
+    offsetPt.x=BuffTracker.Target_position.x;
+    offsetPt.y=pixelY;
+
 }
 
 void Tracker::Big_buff_track() {
@@ -252,6 +259,7 @@ void Tracker::draw(){
     if(BuffTracker.radius>0){
         cv::circle(track_Detector->show(cv::Rect(track_Detector->show.cols/2-640,track_Detector->show.rows/2-512,1280,1024)), BuffTracker.R_position, (int)BuffTracker.radius,cv::Scalar(255, 255 ,255), 1);
         cv::circle(track_Detector->show(cv::Rect(track_Detector->show.cols/2-640,track_Detector->show.rows/2-512,1280,1024)), BuffTracker.Target_position, 10,cv::Scalar(0, 255 ,0), -1);
+        cv::circle(track_Detector->show(cv::Rect(track_Detector->show.cols/2-640,track_Detector->show.rows/2-512,1280,1024)), offsetPt, 5, cv::Scalar(255,0,255), 1);
         cv::putText(track_Detector->show,cv::format("predicTime:%2f",offset_time),cv::Point2i(50, 250),cv::FONT_HERSHEY_SIMPLEX,
                     1,cv::Scalar(0,255,255),2);
         cv::putText(track_Detector->show,cv::format("Theta:%2f",BuffTracker.targetTheta),cv::Point2i(50, 300),cv::FONT_HERSHEY_SIMPLEX,

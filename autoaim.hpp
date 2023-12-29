@@ -19,7 +19,7 @@ long start_time = 0;
 //#define USE_HIK
 
 //图像读取进程
-cv::VideoCapture cap("../image/armor.avi");
+cv::VideoCapture cap("../image/small_blue.mp4");
 [[noreturn]] void CapThread(){
     while(true){
 #ifdef USE_HIK
