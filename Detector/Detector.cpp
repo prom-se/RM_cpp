@@ -263,6 +263,7 @@ bool Detector::detect(){
         // rune.infer_v5();
         rune.infer_v8();
         rune.findTarget();
+        rune.findR();
     }
     return true;
 }

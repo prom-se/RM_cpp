@@ -373,6 +373,7 @@ void HikCam::GetMat(cv::Mat &dst){
         nRet = MV_CC_GetOneFrameTimeout(handle, pData, nDataSize, &stImageInfo, 1000);
         if(nRet != MV_OK){
             printf("[CAMERA] No data[%x]\n", nRet);
+            return;
         }
         cv::Mat src = cv::Mat(stImageInfo.nHeight, stImageInfo.nWidth, CV_8UC1);
         memcpy(src.data, pData, stImageInfo.nWidth * stImageInfo.nHeight * 1);

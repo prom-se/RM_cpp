@@ -16,7 +16,7 @@ void EKF::init() {
     H <<
     1, 0, 0, 0,
     0, 1, 0, 0;
-    Q = Matrix4d::Identity() * 1;  // 过程噪声
+    Q = Matrix4d::Identity() * 1.5;  // 过程噪声
     R = Matrix2d::Identity() * 0.5;   // 测量噪声
 }
 

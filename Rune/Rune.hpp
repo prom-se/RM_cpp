@@ -46,6 +46,7 @@ public:
 
     //寻找目标
     void findTarget();
+    void findR();
     struct rune_targets targets;
 
     Rune();

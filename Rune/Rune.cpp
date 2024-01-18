@@ -108,16 +108,20 @@ void Rune::findTarget() {
         Target_index = 4;
     }
     else if(targets.color=="blue"){
+        //R_index = 3;//debug 3
         R_index = 0;
         Target_index = 1;
     }
     int i = 0;
     targets.index_R = -1; targets.index_Target = -1;
     for (int index : indexes) {
-        if(classIds[index]== R_index){
-            targets.index_R = i;
-        }
-        else if(classIds[index]== Target_index){
+        if(boxes[index].y<300)continue;
+        if(boxes[index].x<300)continue;
+        // if(classIds[index]== R_index){
+        //     targets.index_R = i;
+        // }
+        if(classIds[index]== Target_index){
+            if(boxes[index].area()<2500)continue;
             targets.index_Target = i;
         }
         else if(classIds[index]== 2){
@@ -134,6 +138,38 @@ void Rune::findTarget() {
                 cv::Point2f((float)boxes[index].x+(float)boxes[index].width,(float)boxes[index].y+(float)boxes[index].height)};
         targets.pix_position.emplace_back(position);
         i++;
+    }
+}
+
+void Rune::findR() {
+    cv::Mat gray,bin;
+    cv::cvtColor(image,gray,cv::COLOR_RGB2GRAY);
+    cv::threshold(gray,bin,180,255,cv::THRESH_BINARY);
+    cv::Mat ele = cv::getStructuringElement(cv::MORPH_ERODE,cv::Size(3,3));
+    cv::erode(bin,bin,ele);
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
+    cv::findContours(bin,contours,hierarchy,cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    for(const auto & contour : contours){
+        cv::RotatedRect rect = cv::minAreaRect(contour);
+        double k = rect.size.width/rect.size.height;
+        if(rect.center.y<100) continue;
+        if(rect.center.x<300) continue;
+        if(k>1.5||k<0.66) continue;
+        cv::Rect bRect=cv::boundingRect(contour);
+        if(bRect.area()>2500||bRect.area()<100)continue;
+        cv::Scalar bgr = cv::mean(image(bRect));
+        std::string lightColor = bgr.val[2]-bgr.val[0]>=0 ? "blue":"red";
+        if(lightColor=="red")continue;
+        
+        std::vector<cv::Point2f> pts = {
+            cv::Point2f(bRect.x,bRect.y),
+            cv::Point2f(bRect.x,bRect.y+bRect.height),
+            cv::Point2f(bRect.x+bRect.width,bRect.y),
+            cv::Point2f(bRect.x+bRect.width,bRect.y+bRect.height)};
+        targets.pix_position.emplace_back(pts);
+        targets.center.emplace_back(bRect.x+bRect.width/2,bRect.y+bRect.height/2);
+        targets.index_R=targets.pix_position.size()-1;
     }
 }
 

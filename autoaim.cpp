@@ -19,8 +19,8 @@ int main(){
         Detector_.detect();
         //解算，跟踪目标
         Tracker_.track();
+        if(!Detector_.found&&Detector_.rune.targets.pix_position.size()<2){Tracker_.vMsg->aimPitch=0;Tracker_.vMsg->aimYaw=0;}
         Serial_.visionUpdate(*Tracker_.vMsg);
-        if(!Detector_.found){Tracker_.vMsg->aimPitch=0;Tracker_.vMsg->aimYaw=0;}
         if(Serial_.isOk){
             Detector_.serMsg=cv::format("Y:%05.2f/P:%05.2f",Tracker_.vMsg->aimYaw,Tracker_.vMsg->aimPitch);
             Detector_.readMsg=cv::format("SelfY:%05.2f/SelfP:%05.2f",Tracker_.rMsg->robotYaw,Tracker_.rMsg->robotPitch);

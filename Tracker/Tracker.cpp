@@ -28,7 +28,8 @@ bool Tracker::pnpSolve(){
         if(track_Detector->rune.targets.index_Target == -1) return false;
 //        cv::solvePnP(rune_Point, track_Detector->rune.targets.pix_position[track_Detector->rune.targets.index_Target],
 //                     cameraMatrix, distCoeffs, rvec, tvec, false,cv::SOLVEPNP_IPPE_SQUARE);
-        track_Detector->Target_dis = sqrt(633.8*633.8+pow(140*cos(BuffTracker.targetTheta/180*CV_PI),2));
+//debug 633.8
+        track_Detector->Target_dis = sqrt(800*800+pow(140*cos(BuffTracker.targetTheta/180*CV_PI),2));
     }
     disFilter.update(track_Detector->Target_dis);
     disFilter.get_avg(track_Detector->Target_dis);
@@ -106,15 +107,16 @@ void Tracker::buff_init(){
         }
     }
     if(track_Detector->rune.targets.index_R != -1) BuffTracker.radius = r / ((double)track_Detector->rune.targets.center.size()-1);
-    else BuffTracker.radius = r / (double)track_Detector->rune.targets.center.size();
+    else BuffTracker.radius = r / (double)(1+track_Detector->rune.targets.index_Activatied.size()-track_Detector->rune.targets.index_ignore.size());
     if(BuffTracker.isSmall) {
-        BuffTracker.spd = 60;  //小能量机关转速固定10RPM
+        BuffTracker.spd = 60;  //小能量机关转速固定10RPM 60
         double k = (track_Detector->rune.targets.center[track_Detector->rune.targets.index_Target].x-BuffTracker.R_position.x)/BuffTracker.radius;
         if(k <-1) k = -1;
         if(k > 1) k =  1;
         BuffTracker.targetTheta = acos(k)* 180 / CV_PI;
         BuffTracker.targetTheta = track_Detector->rune.targets.center[track_Detector->rune.targets.index_Target].y<BuffTracker.R_position.y ? BuffTracker.targetTheta : 360-BuffTracker.targetTheta;
-        double predic = BuffTracker.color=="blue"?BuffTracker.spd*offset_time*3/2:-BuffTracker.spd*offset_time*3/2;
+        //debug !=
+        double predic = BuffTracker.color!="blue"?BuffTracker.spd*offset_time*3/2:-BuffTracker.spd*offset_time*3/2;
         BuffTracker.preTheta=BuffTracker.targetTheta+predic;
         BuffTracker.Target_position.x = BuffTracker.radius*cos( BuffTracker.preTheta*CV_PI/180)+BuffTracker.R_position.x;
         BuffTracker.Target_position.y = -BuffTracker.radius*sin( BuffTracker.preTheta*CV_PI/180)+BuffTracker.R_position.y;
@@ -133,8 +135,9 @@ void Tracker::buff_init(){
     double fy = cameraMatrix.at<double>(1, 1);
     double cx = cameraMatrix.at<double>(0, 2);
     double cy = cameraMatrix.at<double>(1, 2);
-    track_Detector->yaw = atan((BuffTracker.Target_position.x - cx) / fx) * 180/CV_PI;
-    track_Detector->offset_pitch = atan((cy - BuffTracker.Target_position.y) / fy) * 180/CV_PI +track_Detector->offset_pitch-track_Detector->pitch;
+    track_Detector->yaw = atan((BuffTracker.Target_position.x - cx) / fx) * 180/CV_PI+2;
+    //+track_Detector->offset_pitch-track_Detector->pitch
+    track_Detector->offset_pitch = atan((cy - BuffTracker.Target_position.y) / fy) * 180/CV_PI+3.8;
     vMsg->aimYaw=track_Detector->yaw;
     vMsg->aimPitch=track_Detector->offset_pitch;
 
