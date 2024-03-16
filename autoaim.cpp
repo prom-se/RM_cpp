@@ -13,13 +13,13 @@ int main(){
         //检测装甲板
         Serial_.robotUpdate(*Tracker_.rMsg);
         Detector_.target_color=!Tracker_.rMsg->foeColor?"blue":"red";
-        Tracker_.rMsg->mode=1;//debug调试
         Detector_.isRune=Tracker_.rMsg->mode!=0?true:false;
         Tracker_.BuffTracker.isSmall=Tracker_.rMsg->mode==1?true:false;
         Detector_.detect();
         //解算，跟踪目标
         Tracker_.track();
         if(!Detector_.found&&Detector_.rune.targets.pix_position.size()<2){Tracker_.vMsg->aimPitch=0;Tracker_.vMsg->aimYaw=0;}
+        Tracker_.vMsg->fire = Tracker_.vMsg->aimPitch<3 && Tracker_.vMsg->aimYaw<3?1:0;
         Serial_.visionUpdate(*Tracker_.vMsg);
         if(Serial_.isOk){
             Detector_.serMsg=cv::format("Y:%05.2f/P:%05.2f",Tracker_.vMsg->aimYaw,Tracker_.vMsg->aimPitch);
